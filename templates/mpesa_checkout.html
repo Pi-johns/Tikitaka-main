@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+{% block title %}
+Pay with m-pesa | Pools TikiTaka
+{% endblock %}
+{% block body %}
+<!-- mpesa_checkout.html -->
+<body>
+<style>
+     
+
+/* Centering the container */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Styling the form */
+.center-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.center-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+ background-color: #4CAF50; /* Initial button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+/* Hover effect for button */
+.center-form button:hover {
+    background-color: #45a049; /* Color on hover */
+}
+
+</style>
+
+<h1 style="text-align:center; margin:30px;">Checkout with M-PESA</h1>
+<div style="margin-bottom:80px;"  class="center-container">
+{% if error %}
+   <p style="text-align:center;" >{{ error }}</p>
+{% else %}
+   <form class="center-form"  method="post" action="{% url 'mpesa_checkout' %}">
+       {% csrf_token %}
+       <div style="display: block;">
+       {{ form.as_p }}
+    </div>
+     <button type="submit" style="margin:30px; text-align:center; align-items:center;"  >Pay With M-pesa</button>
+     <h1>ksh {{total|floatformat:2|intcomma}}</h1>
+   </form>
+   {% if order %}
+       <p>Order Total: {{ order.total }}</p>
+       <p>Order Code: {{ order.code }}</p>
+   {% endif %}
+{% endif %}
+</div>
+
+{% endblock %}
+

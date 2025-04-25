@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+{{product.product_name}} | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible fade show mb-0" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="/">Home</a>
+                    <a class="breadcrumb-item text-dark" href="/products">Shop</a>
+                    <span class="breadcrumb-item active">{{product.product_name}}</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    
+    
+    <!-- Shop Detail Start -->
+    <div class="container-fluid pb-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                        <div class="carousel-item active">
+                            <a href="/productdetail/{{product.id}}">
+                                <img class="w-100 h-100" src="{{ product.product_img.url }}" alt="Image">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="/productdetail/{{product.id}}">
+                                <img class="w-100 h-100" src="{{ product.product_img1.url }}" alt="Image">
+                            </a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="/productdetail/{{product.id}}">
+                                <img class="w-100 h-100" src="{{ product.product_img2.url }}" alt="Image">
+                            </a>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
+                </div>
+            </div>
+    
+            <div class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3>{{ product.product_name }}</h3>
+                    <div class="d-flex mb-3">
+                        <strong class="pt-1"> Ratings: {{ rating|floatformat:1 }}</strong>
+                    </div>
+                    <h3 class="font-weight-semi-bold mb-4">ksh {{ product.price|intcomma }}</h3>
+    
+                    <div class="price-box-bar mt-4">
+                        <div class="cart-and-buy-btn">
+                            <a class="btn hvr-hover mr-2" style="background-color: rgb(0, 47, 255);" href="/buynow/{{ product.id }}">Buy Now</a>
+                            {% if not pr_qty %}
+                            <a class="btn hvr-hover" style="background-color: rgb(0, 47, 255);" href="/addtocart/{{ product.id }}">Add to cart</a>
+                            {% else %}
+                            <a class="btn hvr-hover mr-2" href="/deletefromcart/{{ product.id }}" style="color:white;background-color: rgb(0, 47, 255);">
+                                <i class="fas fa-minus"></i></a>
+                            <span class="px-2">{{ pr_qty }}</span>
+                            <a class="btn hvr-hover ml-2" href="/addtocart/{{ product.id }}" style="color:white; background-color:rgb(0, 47, 255);">
+                                <i class="fas fa-plus"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+    
+                    <div style="display: block;">
+                        <div class="add-to-btn">
+                            <div class="add-comp">
+                                {% if not wishlist %}
+                                <a class="btn hvr-hover" style="background-color: rgb(0, 47, 255);" href="/addtowishlist/{{ product.id }}"><i class="far fa-heart"></i> Add to wishlist</a>
+                                {% else %}
+                                <a class="btn hvr-hover" style="background-color: rgb(0, 47, 255);" href="/removefromwishlist/{{ product.id }}"><i class="fas fa-heart"></i> Wishlisted</a>
+                                {% endif %}
+                            </div>
+                        </div>
+    
+                        <div class="d-flex pt-flex">
+                            <strong style="margin: 10px;" class="text-dark mr-2">Share:</strong>
+                            <div class="d-inline-flex" style="margin: 10px;">
+                                <a class="text-dark px-2" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a class="text-dark px-2" href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri }}">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Detail End -->
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="bg-light p-30">
+                <div class="nav nav-tabs mb-4">
+                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                    <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews ({{no_of_reviews}})</a>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <h4 class="mb-3">Product Description</h4>
+                        <p>
+                            {% for desc in descs %}
+                            <p><i class="fas fa-angle-right"></i><i class="fas fa-angle-right"></i> {{desc}}</p>
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="tab-pane fade show" id="tab-pane-3">
+                    <div class="row my-5">
+                        <div class="col-xl-7 col-lg-7 col-md-12">
+                            <div class="title-left">
+                                <h2 class="font-weight-bold">Reviews ({{no_of_reviews}})</h2>
+                            </div>
+                            {% if no_of_reviews %}
+                            {% for review in reviews %}
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-4">
+                                    <div class="row px-3">
+                                        <img src="{{ review.customer.profile_pic.url }}" class="avatar">
+                                        <h3 class="font-weight-bold px-2">{{review.customer.user.first_name}} {{review.customer.user.last_name}}</h3>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4">
+                                    <i class="fas fa-clock pr-2"></i>{{review.created_at}}
+                                </div>
+                                <div class="col-xl-4 col-lg-4">
+                                    <i class="fas fa-star pr-2"></i>Rating: {{review.rating}}/5
+                                </div>
+                            </div>
+                            <div class="pb-4">
+                                <h4 class="font-weight-bold pt-2">{{review.subject}}</h4>
+                                <p>{{review.review}}</p>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <div class="text-left">
+                                <h3 class="font-weight-bold">No reviews yet.</h3>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-12">
+                            <div class="title-left">
+                                <h2 class="font-weight-bold">Post Your Review</h2>
+                            </div>
+                            <form method="POST" action="/postreview/{{product.id}}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="subject" class="font-weight-bold mb-0">Subject</label>
+                                            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="rating" class="font-weight-bold mb-0">Rating (/5)</label>
+                                            <input type="number" value="0" min="1" max="5" class="form-control" name="rating" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="review" class="font-weight-bold mb-0">Write Your Review</label>
+                                            <textarea rows="4" class="form-control" name="review" placeholder="Write Your Reviews" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        {% if user.id %}
+                                        <div class="submit-button">
+                                            <button class="btn hvr-hover" id="submit" type="submit">Post</button>
+                                        </div>
+                                        {% else %}
+                                        <h4 class="font-weight-bold">You must be logged in to post your review.</h4>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Start -->
+<div class="" style="width: 100%; margin: 10px;">
+    <style>
+        .out {
+          width: 100%;
+          height: 400px;
+          border: 1px solid black;
+          overflow: hidden;
+          position: relative;
+        }
+    
+        .inn {
+          width: 100%;
+          height: 100%;
+          background-color: rgb(64, 73, 87);
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+          transition: left 1s ease-in-out;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: rgb(0, 0, 0);
+          font-size: 16px;
+          font-family: Arial, sans-serif;
+        }
+      </style>
+   
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
+
+        <h5>Related Products</h5>
+        <div class="out">
+        <div class="inn"  id="slidingDiv">
+        <div id="related-products-container" class="related-products-container" style="display:flex; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; -webkit-overflow-scrolling: touch;" >
+            {% for related_product in related_products %}
+                <div class="card related-product mb-4" style="display: inline-block; width: 200px; margin-right: 10px; flex: 0 0 auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+                    <img src="{{ related_product.product_img.url }}" class="card-img-top" alt="{{ related_product.product_name }}" style="width: 100%; height: 150px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related_product.product_name }}</h5>
+                        <p class="card-text">Price: Ksh{{ related_product.price }}</p>
+                        <div class="d-flex align-items-center justify-content-left mb-1">
+                            <small class="fa fa-star text-dark mr-1"></small>
+                            <small class="fa fa-star text-dark mr-1"></small>
+                            <small class="fa fa-star text-dark mr-1"></small>
+                            <small class="fa fa-star text-primary mr-1"></small>
+                            <small class="fa fa-star-half-alt text-primary mr-1"></small>
+                           
+                                <small><strong>(0)</strong></small>
+                           
+                        </div>
+                        <a href="/productdetail/{{related_product.id}}" class="btn btn-primary" style="background-color: rgb(0, 47, 255); justify-content: center; border-radius: 5%; height: 35px;"><h6 style="color: white;">View Details</h6></a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+
+<script>
+    const slidingDiv = document.getElementById('slidingDiv');
+    let isRight = false;
+
+    function slide() {
+      if (isRight) {
+        slidingDiv.style.left = '0';
+      } else {
+        slidingDiv.style.left = '200px';
+      }
+      isRight = !isRight;
+    }
+
+    setInterval(slide, 2000);
+  </script>
+
+
+<script>
+let nextPage = 2;
+let hasNext = {{ related_products.has_next|lower }};
+
+function loadMoreRelatedProducts() {
+if (!hasNext) return;
+const container = document.getElementById('related-products-container');
+const productId = {{ product.id }};
+
+fetch(`/fetch_related_products/${productId}/?page=${nextPage}`)
+    .then(response => response.json())
+    .then(data => {
+        data.products.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.className = 'card related-product mb-4';
+            productElement.innerHTML = `
+                <img src="${product.product_img.url}" class="card-img-top" alt="${product.product_name}">
+                <div class="card-body">
+                    <h5 class="card-title">${product.product_name}</h5>
+                    <p class="card-text">Price: Ksh${product.price}</p>
+                    <a href="${'product.url'}" class="btn btn-primary">View Details</a>
+                </div>
+            `;
+            container.appendChild(productElement);
+        });
+        hasNext = data.has_next;
+        nextPage = data.next_page_number;
+    });
+}
+
+document.getElementById('related-products-container').addEventListener('scroll', function() {
+if (this.scrollLeft + this.clientWidth >= this.scrollWidth) {
+    loadMoreRelatedProducts();
+}
+});
+</script>
+{% endblock %}
+
+</div>
+    <!-- Products End -->
+
+
+    
+   
+

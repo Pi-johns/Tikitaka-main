@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+Home | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible fade show mb-0" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- Hero Carousel -->
+<section class="relative overflow-hidden width-100%">
+    <div id="hero-carousel" class="slick-carousel h-[70vh] min-h-[400px]">
+      {% for slide in slides %}
+      <div>
+        <div class="relative h-[70vh] min-h-[400px] w-full rounded-xl overflow-hidden shadow-lg">
+          <!-- Background Image with zoom-out effect -->
+          <img src="{{ slide.image.url }}" alt="{{ slide.heading }}"
+               class="absolute inset-0 w-full h-full object-cover object-center z-0 transition-transform duration-1000 ease-in-out hover:scale-95" />
+  
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-black/30 z-10"></div>
+  
+          <!-- Content -->
+          <div class="relative z-20 h-full flex items-center justify-start px-6 md:px-12">
+            <div class="max-w-2xl text-white space-y-6 animate-drop-in">
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight drop-shadow-2xl">
+                {{ slide.heading }}
+              </h1>
+              <p class="text-lg md:text-xl lg:text-2xl text-white/90 drop-shadow-md">
+                {{ slide.subheading }}
+              </p>
+              <div class="flex flex-wrap gap-4 pt-2">
+                {% if slide.primary_button_text and slide.primary_button_link %}
+                <a href="{{ slide.primary_button_link }}"
+                   class="bg-primary hover:bg-primary/90 text-white px-6 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                  {{ slide.primary_button_text }}
+                </a>
+                {% endif %}
+                {% if slide.secondary_button_text and slide.secondary_button_link %}
+                <a href="{{ slide.secondary_button_link }}"
+                   class="bg-white/20 hover:bg-white/30 text-white px-6 md:px-8 py-3 rounded-full font-semibold text-sm md:text-base transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                  {{ slide.secondary_button_text }}
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  
+<!-- About Tikitaka Pool Tables -->
+<section class="bg-white py-12 px-6 md:px-12 rounded-lg shadow-lg mt-8">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <!-- Text Content -->
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Tikitaka Pool Tables – Kenya’s Trusted Game Room Experts</h2>
+        <p class="text-gray-700 mb-4">
+          With over a decade of experience, <strong>Tikitaka Pool Tables</strong> has become a household name in Kenya's recreational scene. Based in Nairobi, we specialize in crafting high-quality pool tables, table tennis setups, foosball tables, and dartboards. Our commitment to excellence has led to the establishment of branches in Mombasa, Nakuru, Narok, and Eldoret, ensuring that quality gaming experiences are accessible nationwide.
+        </p>
+        <p class="text-gray-700 mb-6">
+          Whether you're looking to upgrade your game room or seeking professional after-sale services, Tikitaka Pool Tables is your go-to destination. Our products are designed with precision, ensuring durability and an unmatched gaming experience.
+        </p>
+        <a href="" class="inline-block bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-primary-dark transition duration-300">
+          Learn More About Us
+        </a>
+      </div>
+      <!-- Image -->
+      <div>
+        <img src="{% static 'images/tikitaka.png' %}" alt="Tikitaka Pool Table Kenya" class="w-full h-auto rounded-lg shadow-lg">
+      </div>
+    </div>
+  </section>
+  
+  
+<!-- Offers Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="relative rounded-lg overflow-hidden transition-all duration-300 shadow hover:shadow-xl hover:-translate-y-1 h-full">
+                <img src="{% static 'images/bg2.jpg' %}" class="w-full h-full object-cover" alt="Pool Tables">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Summer Sale</h3>
+                    <p class="mb-4">Save 20% on selected pool tables</p>
+                    <a href="/products/?category=2" class="bg-primary hover:bg-opacity-90 text-white px-6 py-2 rounded-full text-sm transition duration-300 inline-flex items-center">
+                        Shop Now <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="relative rounded-lg overflow-hidden transition-all duration-300 shadow hover:shadow-xl hover:-translate-y-1 h-full">
+                <img src="{% static 'images/big.jpg' %}" class="w-full h-full object-cover" alt="Accessories">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Premium Accessories</h3>
+                    <p class="mb-4">Complete your setup with our high-quality cues and balls</p>
+                    <a href="/products/?category=3" class="bg-primary hover:bg-opacity-90 text-white px-6 py-2 rounded-full text-sm transition duration-300 inline-flex items-center">
+                        Explore <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Featured Products -->
+<section class="py-16 bg-gray-50">
+    <div class="container">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold relative inline-block pb-2 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-primary after:rounded">
+                Featured Products
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Our premium selection of pool tables and accessories</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for product in products %}
+            {% if product.tag == 'Featured' %}
+            <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+                <a href="/productdetail/{{product.id}}">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="{{product.product_img.url}}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="{{product.product_name}}">
+                        <span class="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                            {{product.tag}}
+                        </span>
+                        <button class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary hover:text-white shadow">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </a>
+                <div class="p-5 flex-grow flex flex-col">
+                    <a href="/productdetail/{{product.id}}" class="text-lg font-semibold text-gray-800 hover:text-primary transition mb-2">
+                        {{product.product_name}}
+                    </a>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-primary font-bold text-xl">Ksh {{product.price|intcomma}}</span>
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm">({{ products_with_ratings_info|get_rating_count:product.id }})</span>
+                        </div>
+                    </div>
+                    <a href="/addtocart/{{product.id}}" class="mt-auto bg-primary hover:bg-opacity-90 text-white w-full py-3 rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Billiards Section -->
+<section class="py-16 bg-white">
+    <div class="container">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold relative inline-block pb-2 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-primary after:rounded">
+                Professional Billiards
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Tournament-grade tables for serious players</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for billiard in billiards %}
+            <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+                <a href="/productdetail/{{billiard.id}}">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="{{billiard.product_img.url}}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="{{billiard.product_name}}">
+                        {% if billiard.tag %}
+                        <span class="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                            {{billiard.tag}}
+                        </span>
+                        {% endif %}
+                        <button class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary hover:text-white shadow">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </a>
+                <div class="p-5 flex-grow flex flex-col">
+                    <a href="/productdetail/{{billiard.id}}" class="text-lg font-semibold text-gray-800 hover:text-primary transition mb-2">
+                        {{billiard.product_name}}
+                    </a>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-primary font-bold text-xl">Ksh {{billiard.price|intcomma}}</span>
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm">({{ products_with_ratings_info|get_rating_count:billiard.id }})</span>
+                        </div>
+                    </div>
+                    <a href="/addtocart/{{billiard.id}}" class="mt-auto bg-primary hover:bg-opacity-90 text-white w-full py-3 rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/products/?category=3" class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg transition duration-300 inline-flex items-center">
+                View All Billiards <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Refurbished Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold relative inline-block pb-2 mb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-primary after:rounded">
+                Refurbished Tables
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Quality restored tables at exceptional value</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for second in seconds %}
+            <div class="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+                <a href="/productdetail/{{second.id}}">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="{{second.product_img.url}}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="{{second.product_name}}">
+                        {% if second.tag %}
+                        <span class="absolute top-3 left-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                            {{second.tag}}
+                        </span>
+                        {% endif %}
+                        <button class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary hover:text-white shadow">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </a>
+                <div class="p-5 flex-grow flex flex-col">
+                    <a href="/productdetail/{{second.id}}" class="text-lg font-semibold text-gray-800 hover:text-primary transition mb-2">
+                        {{second.product_name}}
+                    </a>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-primary font-bold text-xl">Ksh {{second.price|intcomma}}</span>
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-sm">({{ products_with_ratings_info|get_rating_count:second.id }})</span>
+                        </div>
+                    </div>
+                    <a href="/addtocart/{{second.id}}" class="mt-auto bg-primary hover:bg-opacity-90 text-white w-full py-3 rounded-lg transition flex items-center justify-center">
+                        <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/products?category=6" class="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg transition duration-300 inline-flex items-center">
+                View All Refurbished <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- Features Section -->
+<section class="py-16 bg-white shadow-lg rounded-lg">
+    <div class="container">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-award text-primary text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Premium Quality</h4>
+                <p class="text-gray-600">Crafted with finest materials for lasting performance</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-truck text-primary text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Free Shipping</h4>
+                <p class="text-gray-600">Nationwide delivery on all orders</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shield-alt text-primary text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">2-Year Warranty</h4>
+                <p class="text-gray-600">Comprehensive protection on all products</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-headset text-primary text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-lg mb-2">24/7 Support</h4>
+                <p class="text-gray-600">Dedicated customer service team</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-secondary text-white">
+    <div class="container">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-4">Need Professional Advice?</h2>
+            <p class="text-xl mb-8 text-gray-300">Our pool experts are ready to help you choose the perfect table for your space and playing style.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="tel:+254723817996" class="bg-primary hover:bg-opacity-90 text-white px-8 py-3 rounded-lg transition duration-300 transform hover:-translate-y-1 flex items-center">
+                    <i class="fas fa-phone-alt mr-2"></i> Call Now
+                </a>
+                <a href="/contactus" class="bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-lg transition duration-300 transform hover:-translate-y-1 flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> Email Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Initialize any necessary JavaScript
+    $(document).ready(function() {
+        // Add to wishlist functionality
+        $('.fa-heart').click(function(e) {
+            e.preventDefault();
+            $(this).toggleClass('far fas text-red-500');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+      $('#hero-carousel').slick({
+        dots: false,
+        infinite: true,
+        speed: 900,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 4000, // auto-slide every 7 seconds
+        pauseOnHover: true,
+        arrows: false,
+        fade: false, // ❌ Disable fade to allow horizontal sliding
+        cssEase: 'ease-in-out'
+      });
+    });
+  </script>
+  <style>
+    @keyframes drop-in {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .animate-drop-in {
+      animation: drop-in 1s ease-out both;
+    }
+  
+   
+  
+    .slick-track {
+      display: flex !important;
+      align-items: stretch !important;
+    }
+  </style>
+  
+  
+ <style>
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-drop-in {
+    animation: drop-in 1s ease-out both;
+  }
+
+  
+  .slick-track {
+    display: flex !important;
+  }
+</style>
+
+  
+{% endblock %}

@@ -1,0 +1,79 @@
+                                                                         
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Terms & Conditins | Smart Pools
+{% endblock %}
+
+{% block body %}
+
+
+
+<h>TERMS AND CONDITIONS</h>
+<h1><These terms and conditions (‘T&C’) apply between the customer (‘you’), and Smart pool makers (‘we\us’). Please keep the original copy of the invoice (‘the invoice’) if you want to rely on any of the rights in terms of these T&C. We cannot assist you if you do not have the invoice.
+</h1>
+<h>GENERAL</h>
+<p>This document is the entire T&C. No other provision may be included, or read in.
+Failure by us to strictly enforce a provision or the periodic relaxation of a provision
+in this document does not amount to an implied waiver of any provision or of any
+rights associated to the provision.
+These T&C may not be waived, amended, suspended, ceded or transferred unless
+authorised in writing by head office.
+These provisions may not be enforceable where unforeseeable or uncontrollable
+circumstances exist making it not reasonably possible to perform in terms of this
+T&C (force majeure).<p>
+PAYMENTS
+Quoted prices are valid for 7 days.
+You must pay a minimum of 50% deposit of the purchased price into our account, we will start
+with production as soon as your payment reflects on our Bank Statements. (usually
+within 24 – 48 hours).
+The balance payments must be paid prior to delivery, we will notify you of the
+estimated delivery date after your balance payment reflects on our Bank
+Statements. (usually within 72hours).
+If you cancel your order within 7 days after your deposit has been paid you will forfeit 10% of your deposit.
+If you cancel your order after the 7-day period, you will forfeit your entire deposit
+and be liable for the balance.
+We accept all forms of payment except Cheques, American Express or Diners Club.
+DELIVERIES
+Delivery will take place once we receive the full amount (see 2.3 above). A delivery
+fee is automatically added to the invoice.
+All delivery times are an approximation. Although we try to give the most accurate
+dates of delivery, we cannot be held liable for any delays that may occur. We will
+contact you to make arrangements for the delivery. All deliveries will take place on a
+week day between 09h00 and 16h00, excluding public holidays.
+Once delivered, you must inspect the product for any defects whilst our delivery
+staff are present, and sign a document verifying you received the product and that it
+is in good condition. We may rely on this document as proof that the product was in
+good condition when delivered, and that it met your specifications. If the product is
+not in a good condition, or doesn’t meet your specifications, then the product must
+be returned on the same transport vehicle that delivered the product, otherwise
+you are responsible for any costs in transporting the product back to Head Office.
+On the day of delivery, the area where the product will be placed must be clearly
+marked and cleared of any furniture, breakable items and pets. Our staff are not
+permitted to move or rearrange your furniture. We will not be liable for any
+damages or costs due to your failure to clear the area.
+Our products are usually large, therefore it is your responsibility to find out product
+dimensions and whether the product can fit through any door, stairwell or passage
+way. We will not hoist the product over any balconies, walls or through windows. If
+there is no other option but to hoist the product or to implement any other non-
+standard method to get the product in the desired location, then you must arrange
+this at your own cost and risk. We do not install or mount the products once
+delivered. You may be liable to pay any additional delivery costs where you send the
+product back or where you failed to be at the premises on the date of delivery.
+For an upfront fee, we can relocate (transport) your product elsewhere.
+COLLECTIONS
+If you prefer to collect the product at your own expense, then you must transport
+the product using a suitable vehicle and store the product in the correct manner, as
+instructed by us. You must supply your own transport equipment (ropes, blankets
+etc). You must arrange a time and date with Warehouse Manager for collection of
+products, allow 24 hours for preparation. No collections over weekends or public
+holidays.
+We will not be liable for any damage caused to the product if it is transported by
+you. The invoice must be presented by you, or any person collecting on your behalf
+before we release the product.
+
+
+
+{% endblock %}

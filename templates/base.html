@@ -1,0 +1,520 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Pools TikiTaka - Kenya's Premier Pool Tables Supplier{% endblock %}</title>
+    <meta name="description" content="Kenya's leading supplier of premium pool tables and accessories. Quality products at competitive prices.">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/tikitaka.png' %}" type="image/x-icon">
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Slick Carousel -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6A00', // Alibaba orange
+                        secondary: '#003D79', // Alibaba blue
+                        dark: '#222222',
+                        light: '#f8f9fa',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                    transitionProperty: {
+                        'height': 'height',
+                        'spacing': 'margin, padding',
+                        'max-height': 'max-height'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        /* Sticky header animation */
+        .sticky-header {
+            transition: transform 0.3s ease;
+            transform: translateY(-100%);
+        }
+        .sticky-header.active {
+            transform: translateY(0);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Mobile menu animation */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .mobile-menu.open {
+            max-height: 100vh;
+        }
+        
+        /* Hamburger menu icon */
+        .hamburger {
+            transition: all 0.3s ease;
+            width: 24px;
+            height: 20px;
+            position: relative;
+        }
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #222;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger span:nth-child(1) {
+            top: 0;
+        }
+        .hamburger span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .hamburger span:nth-child(3) {
+            bottom: 0;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-gray-300 text-gray-800">
+    <!-- Top Bar -->
+    <div class="bg-secondary text-white text-sm py-2 border-b border-white border-opacity-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-4 mb-2 md:mb-0">
+                    <a href="https://maps.app.goo.gl/jVghD5oc1CB42o658" class="hover:text-primary transition">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Our Location
+                    </a>
+                    <a href="/contactus" class="hover:text-primary transition">
+                        <i class="fas fa-headset mr-1"></i> Contact Us
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    {% if user.id %}
+                    <a href="/account" class="hover:text-primary transition">
+                        <i class="fas fa-user mr-1"></i> My Account
+                    </a>
+                    {% else %}
+                    <a href="/login" class="hover:text-primary transition">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Login
+                    </a>
+                    <a href="/signup" class="hover:text-primary transition">
+                        <i class="fas fa-user-plus mr-1"></i> Register
+                    </a>
+                    {% endif %}
+                    <select class="bg-transparent text-white text-sm focus:outline-none cursor-pointer">
+                        <option>KSH</option>
+                    </select>
+                    <select class="bg-transparent text-white text-sm focus:outline-none cursor-pointer">
+                        <option>EN</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Header (initially hidden) -->
+    <div class="sticky-header fixed top-0 left-0 right-0 bg-white shadow-md z-30 py-2">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <!-- Hamburger Menu Button (Mobile Only) -->
+                <button id="mobileMenuToggle" class="md:hidden mr-4 focus:outline-none">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
+                
+                <!-- Logo (Mobile Only) -->
+                <a href="/" class="md:hidden text-xl font-bold">
+                    <span class="text-secondary">POOLS</span>
+                    <span class="text-primary">TIKITAKA</span>
+                </a>
+                
+                <!-- Search Bar (Sticky) -->
+                <form action="/search/" method="GET" class="flex-1 max-w-2xl mx-4">
+                    <div class="relative">
+                        <input type="text" name="search" placeholder="Search for products..." 
+                               class="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <button type="submit" class="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Cart Icon (Sticky) -->
+                <a href="/cart" class="relative ml-4 text-gray-700 hover:text-primary">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    {% if qty > 0 %}
+                    <span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {{qty}}
+                    </span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <!-- Logo -->
+                <div class="mb-4 md:mb-0">
+                    <a href="/" class="text-2xl font-bold">
+                        <span class="text-secondary">POOLS</span>
+                        <span class="text-primary">TIKITAKA</span>
+                    </a>
+                </div>
+                
+                <!-- Search (Hidden on mobile when sticky header is active) -->
+                <div class="w-full md:w-1/2 px-0 md:px-8 mb-4 md:mb-0 hidden md:block">
+                    <form action="/search/" method="GET" class="relative">
+                        <input type="text" name="search" placeholder="Search for products..." 
+                               class="w-full py-2 px-4 border-2 border-primary rounded focus:outline-none focus:ring-1 focus:ring-primary">
+                        <button type="submit" 
+                                class="absolute right-0 top-0 h-full bg-primary text-white px-4 rounded-r hover:bg-opacity-90 transition">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact -->
+                <div class="text-right hidden md:block">
+                    <p class="text-gray-600 text-sm">Customer Service</p>
+                    <a href="tel:+254723817996" class="text-secondary font-semibold hover:text-primary transition">
+                        <i class="fas fa-phone-volume mr-1"></i> +254 723 817996
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-secondary text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row">
+                <!-- Categories Dropdown -->
+                <div class="relative group md:w-64 py-3 px-4 bg-primary font-medium cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <span><i class="fas fa-bars mr-2"></i> ALL CATEGORIES</span>
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </div>
+                    <div class="absolute left-0 mt-1 w-full bg-white shadow-lg z-50 hidden group-hover:block">
+                        <a href="/products" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 border-b border-gray-100">All Products</a>
+                        {% for category in categories %}
+                        <a href="/products/?category={{category.id}}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 border-b border-gray-100">
+                            {{category.category_name}}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Main Nav -->
+                <div class="flex-1 hidden md:block">
+                    <ul class="flex items-center">
+                        <li>
+                            <a href="/" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">HOME</a>
+                        </li>
+                        <li>
+                            <a href="/products" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">SHOP</a>
+                        </li>
+                        <li>
+                            <a href="/about" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">ABOUT US</a>
+                        </li>
+                        <li>
+                            <a href="/contactus" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">CONTACT</a>
+                        </li>
+                        <li class="ml-auto flex items-center space-x-4 py-3 px-4">
+                            {% if user.id %}
+                            <a href="/account/#wishlist" class="relative hover:text-primary transition">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden bg-white shadow-lg z-40">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col space-y-4">
+                <a href="/" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Home</a>
+                <a href="/products" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Shop</a>
+                <a href="/about" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">About Us</a>
+                <a href="/contactus" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Contact</a>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <h4 class="font-semibold text-gray-800 mb-3 px-3">Categories</h4>
+                    <div class="space-y-2">
+                        <a href="/products" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded">All Products</a>
+                        {% for category in categories %}
+                        <a href="/products/?category={{category.id}}" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded">
+                            {{category.category_name}}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                {% if user.id %}
+                <div class="pt-4 border-t border-gray-200">
+                    <a href="/account" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">
+                        <i class="fas fa-user mr-2"></i> My Account
+                    </a>
+                    <a href="/account/#wishlist" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">
+                        <i class="fas fa-heart mr-2"></i> Wishlist
+                    </a>
+                </div>
+                {% else %}
+                <div class="pt-4 border-t border-gray-200">
+                    <a href="/login" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    </a>
+                    <a href="/signup" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">
+                        <i class="fas fa-user-plus mr-2"></i> Register
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden bg-white shadow-lg fixed bottom-0 left-0 right-0 z-30">
+        <div class="flex justify-around">
+            <a href="/" class="py-3 px-4 text-center text-gray-700 hover:text-primary transition flex flex-col items-center">
+                <i class="fas fa-home text-lg mb-1"></i>
+                <span class="text-xs">Home</span>
+            </a>
+            <a href="/products" class="py-3 px-4 text-center text-gray-700 hover:text-primary transition flex flex-col items-center">
+                <i class="fas fa-search text-lg mb-1"></i>
+                <span class="text-xs">Shop</span>
+            </a>
+            <a href="/cart" class="py-3 px-4 text-center text-gray-700 hover:text-primary transition flex flex-col items-center relative">
+                <i class="fas fa-shopping-cart text-lg mb-1"></i>
+                <span class="text-xs">Cart</span>
+                {% if qty > 0 %}
+                <span class="absolute top-1 right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {{qty}}
+                </span>
+                {% endif %}
+            </a>
+            <a href="/account" class="py-3 px-4 text-center text-gray-700 hover:text-primary transition flex flex-col items-center">
+                <i class="fas fa-user text-lg mb-1"></i>
+                <span class="text-xs">Account</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto bg-gray-300  px-4 py-6">
+        
+        {% block body %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">POOLS TIKITAKA</h3>
+                    <p class="text-gray-300 mb-4">Kenya's leading supplier of premium pool tables and accessories.</p>
+                    <div class="space-y-2 text-gray-300">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                            <span>Nairobi Kariobangi Raunda</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <a href="mailto:info@poolstikitaka.com" class="hover:text-primary transition">info@poolstikitaka.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <a href="tel:+254723817996" class="hover:text-primary transition">+254 723 817996</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">PRODUCTS</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/products" class="hover:text-primary transition">All Products</a></li>
+                        {% for category in categories %}
+                        <li>
+                            <a href="/products/?category={{category.id}}" class="hover:text-primary transition">
+                                {{category.category_name}}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">QUICK LINKS</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="/" class="hover:text-primary transition">Home</a></li>
+                        <li><a href="/products" class="hover:text-primary transition">Shop</a></li>
+                        <li><a href="/cart" class="hover:text-primary transition">Shopping Cart</a></li>
+                        <li><a href="/about" class="hover:text-primary transition">About Us</a></li>
+                        <li><a href="/contactus" class="hover:text-primary transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">NEWSLETTER</h3>
+                    <p class="text-gray-300 mb-4">Subscribe for updates and offers</p>
+                    <form class="mb-4">
+                        <input type="email" placeholder="Your Email Address" 
+                               class="w-full px-4 py-2 bg-white bg-opacity-10 border border-gray-300 border-opacity-20 rounded focus:outline-none focus:ring-1 focus:ring-primary text-white placeholder-gray-400">
+                        <button type="submit" class="w-full mt-2 bg-primary text-white py-2 rounded hover:bg-opacity-90 transition">
+                            SUBSCRIBE
+                        </button>
+                    </form>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-8 h-8 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-white border-opacity-10 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-3 md:mb-0">
+                        &copy; <span id="currentYear"></span> Pools TikiTaka. All Rights Reserved.
+                    </p>
+                    <div>
+                        <img src="{% static 'images/payments.png' %}" alt="Payment Methods" class="h-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://api.whatsapp.com/send?phone=+254723817996" target="_blank" 
+       class="fixed bottom-20 left-6 w-14 h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Back to Top -->
+    <button id="backToTop" 
+            class="fixed bottom-20 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition z-40 hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // Sticky Header
+        const stickyHeader = document.querySelector('.sticky-header');
+        const header = document.querySelector('header');
+        const headerHeight = header.offsetHeight;
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > headerHeight) {
+                stickyHeader.classList.add('active');
+            } else {
+                stickyHeader.classList.remove('active');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.querySelector('.hamburger');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            hamburger.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('hidden');
+            } else {
+                backToTop.classList.add('hidden');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Initialize sticky header state
+        if (window.pageYOffset > headerHeight) {
+            stickyHeader.classList.add('active');
+        }
+    </script>
+    
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

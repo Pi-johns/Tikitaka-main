@@ -1,0 +1,121 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.http.response import HttpResponseRedirect
+from django.views import View
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
+from shop.models import Customer
+from shop.tokens import generate_token
+from django.core.mail import EmailMessage, send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from django.conf import settings
+from django.http import HttpResponseBadRequest, HttpResponse
+
+class Signup(View):
+    def get(self, request):
+        current_user = request.user
+        if current_user.id:
+            messages.success(request, 'Already logged in!!!')
+            return redirect('ShopHome')
+        return render(request, 'signup.html')
+
+    def post(self, request):
+        email = request.POST['email']
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        phone = request.POST['phone']
+        state = request.POST['state']
+        city = request.POST['city']
+        pass1 = request.POST['pass1']
+        pass2 = request.POST['pass2']
+        uname = email
+        print(uname, fname, lname, email, phone, pass1)
+
+        values = {
+            'email': email,
+            'fname': fname,
+            'lname': lname,
+            'phone': phone,
+            'state': state,
+            'city': city
+        }
+
+        # Form Validations
+        if User.objects.filter(email=email):
+            messages.success(request, "E-mail Already Registered!!!")
+            return render(request, 'signup.html', values)
+        if len(fname)>10 and len(lname)>10:
+            messages.success(request, "First or Last Name too long!!!")
+            return render(request, 'signup.html', values)
+        if not fname.isalpha() or not lname.isalpha():
+            messages.warning(request,"Name must contain only letters.")
+            return render(request, 'signup.html', values)
+        if len(str(phone))!=10:
+            messages.warning(request,"Phone number must contain 10 digits.")
+            return render(request, 'signup.html', values)
+        if len(pass1)<5:
+            messages.warning(request, "Password too short!!! It must have atleast 5 characters.")
+            return render(request, 'signup.html', values)
+        if pass1!=pass2:
+            messages.warning(request, "Passwords don't match!!!")
+            return render(request, 'signup.html', values)
+
+        new_user = User.objects.create_user(
+            uname,
+            email=email,
+            password=pass1,
+            first_name=fname.capitalize(),
+            last_name=lname.capitalize(),
+            )
+        new_user.is_active = False
+        new_user.save()
+
+        customer = Customer(
+            user=new_user,
+            phone=phone,
+            state=state.capitalize(),
+            city=city.capitalize(),
+        )
+        customer.save()
+        subject = "Welcome to SmartPoolMakers User Registration System"
+        message = f"Hello {customer.user.first_name}!\n\nThank you for registering on our website. Please confirm your email address to activate your account.\n\nRegards,\nThe Smartpoolmakers Team"
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [customer.user.email]
+        send_mail(subject, message, from_email, to_list, fail_silently=True)
+        # Send email confirmation link
+        current_site = get_current_site(request)
+        email_subject = "Confirm Your Email Address"
+        message2 = render_to_string('email_confirmation.html', {
+        'name': customer.user.first_name,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(customer.user.pk)),
+        'token': generate_token.make_token(customer.user)
+        })
+        email = EmailMessage(
+        email_subject,
+        message2,
+        settings.EMAIL_HOST_USER,
+        [customer.user.email],
+        )
+        send_mail(email_subject, message2, from_email, to_list, fail_silently=True)
+        messages.success(request, "Your account has been created successfully! Please check your email to confirm your email address and activate your account.")
+        return redirect('LogIn')
+    def activate(request, uidb64, token): 
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            new_user = get_object_or_404(User, pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            return HttpResponseBadRequest('Invalid user or token')
+
+        if new_user is not None and generate_token.check_token(new_user, token):
+            # Change is_active to is_verified if necessary
+            new_user.is_active = True
+            new_user.token_used = True
+            new_user.save()
+            messages.success(request, "Your Account has been activated!!")
+            return redirect('LogIn')
+        else:
+            return HttpResponseBadRequest('Invalid token or token already used')

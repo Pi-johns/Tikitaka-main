@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+About | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+<section class="bg-white py-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl font-bold text-gray-800 mb-6 italic">TikiTaka Pool Tables</h2>
+        <p class="text-lg text-gray-700 mb-4 leading-relaxed">
+          Tikitaka Pool Tables, our main branch is based in Nairobi, Kenya. We are the leading provider of high-quality recreational equipment with over 10 years of experience. We specialize in pool tables and accessories, table tennis, foosball tables, dartboards, and various board games.
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed">
+          With branches in Mombasa, Narok, Nakuru, and Eldoret, Tikitaka Pool Tables is committed to delivering top-notch products and exceptional service to enhance your gaming experience.
+        </p>
+        <p class="mt-4 italic text-primary font-semibold">Live different, Experience the difference. TikiTaka — "we" the pool doctors.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <img src="{% static 'images/tikitaka.png' %}" class="rounded-lg shadow-md w-full h-[300px] object-cover" alt="Tikitaka Pool Tables" />
+        <img src="{% static 'images/big.jpg' %}" class="rounded-lg shadow-md w-full h-[300px] object-cover" alt="Pool Table Setup" />
+      </div>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+        <h3 class="text-xl font-semibold mb-3 text-primary">Our Expertise</h3>
+        <p class="text-gray-600 text-sm">
+          Based in Nairobi, we are leaders in premium recreational gear. With over a decade of experience, we proudly serve with a focus on quality and customer satisfaction across Kenya.
+        </p>
+      </div>
+      <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+        <h3 class="text-xl font-semibold mb-3 text-primary">Product Range</h3>
+        <p class="text-gray-600 text-sm">
+          From pool tables to board games, our curated collection meets all gaming preferences with performance, durability, and excitement in mind.
+        </p>
+      </div>
+      <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+        <h3 class="text-xl font-semibold mb-3 text-primary">Branches & Accessibility</h3>
+        <p class="text-gray-600 text-sm">
+          Our presence in Mombasa, Narok, Nakuru, and Eldoret ensures top-notch gaming products and support are always within reach.
+        </p>
+      </div>
+      <div class="bg-gray-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+        <h3 class="text-xl font-semibold mb-3 text-primary">Customer Commitment</h3>
+        <p class="text-gray-600 text-sm">
+          We prioritize our customers by offering reliable support and post-sale service, fostering long-lasting relationships built on trust.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
