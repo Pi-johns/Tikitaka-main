@@ -4,85 +4,81 @@
 {% block title %}Create A New Account{% endblock %}
 
 {% block body %}
+<div class="max-w-2xl mx-auto mt-10 mb-16 bg-white shadow-xl rounded-xl p-8">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Create an Account</h1>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 my-4 py-4 bg-light shadow rounded">
-            <div class="title-all text-center">
-                <h1>Create An Account</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline">{{ message }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="this.parentElement.remove();">
+                    <svg class="fill-current h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.914l-2.934 2.935a1 1 0 01-1.414-1.415l2.935-2.934-2.935-2.934a1 1 0 011.414-1.415L10 9.086l2.934-2.935a1 1 0 111.415 1.415L11.414 10l2.935 2.934a1 1 0 010 1.415z"/></svg>
+                </span>
             </div>
+        {% endfor %}
+    {% endif %}
+
+    <form id="formRegister" action="/signup/" method="POST" class="space-y-6">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <form id="formRegister" action="/signup/" method="POST">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                {{message}}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                                <script>
-                                    $('.alert').alert()
-                                </script>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <div class="form-group col-md-12 font-weight-bold">
-                            <label for="email" class="mb-0">E-mail Address</label>
-                            <input type="email" class="form-control" name="email" value="{{email}}" required>
-                        </div>
-                        <div class="form-group col-md-6 font-weight-bold">
-                            <label for="fname" class="mb-0">First Name</label>
-                            <input type="text" class="form-control" name="fname" value="{{fname}}" required>
-                        </div>
-                        <div class="form-group col-md-6 font-weight-bold">
-                            <label for="lname" class="mb-0">Last Name</label>
-                            <input type="text" class="form-control" name="lname" value="{{lname}}" required>
-                        </div>
-                        <div class="form-group col-md-12 font-weight-bold">
-                            <label for="phone" class="mb-0">Mobile Number</label>
-                            <input type="tel" class="form-control" name="phone" value="{{phone}}" required>
-                        </div>
-      
-                        <div class="form-group col-md-5 font-weight-bold">
-                            <label for="state" class="mb-0">Country</label>
-                            <input type="text" class="form-control" name="state" value="{{state}}" required>
-                        </div>
-                        <div class="form-group col-md-4 font-weight-bold">
-                            <label for="city" class="mb-0">City/County</label>
-                            <input type="text" class="form-control" name="city" value="{{city}}" required>
-                        </div>
-                        <div class="form-group col-md-12 font-weight-bold">
-                            <label for="pass1" class="mb-0">Choose Password</label>
-                            <input type="password" class="form-control" name="pass1" required>
-                        </div>
-                        <div class="form-group col-md-12 font-weight-bold">
-                            <label for="pass2" class="mb-0">Confirm Password</label>
-                            <input type="password" class="form-control" name="pass2" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <input class="mb-0" type="checkbox" value="" id="tnc" required>
-                            <label class="mb-0" for="tnc">
-                                I accept the Terms of Use & Privacy Policy
-                            </label>
-                        </div>
-                    </div>
-                    <div class="text-center mt-2">
-                        <button type="submit" class="btn hvr-hover col-lg-4" style="color:white; background-color: blue;">Create Account</button>
-                    </div>
-                </form>
+                <label for="fname" class="block font-medium text-gray-700 mb-1">First Name</label>
+                <input type="text" name="fname" value="{{ fname }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
             </div>
-            <div class="text-center mt-2">
-                <p><strong>OR</strong></p>
+
+            <div>
+                <label for="lname" class="block font-medium text-gray-700 mb-1">Last Name</label>
+                <input type="text" name="lname" value="{{ lname }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
             </div>
-            <div class="text-center mt-2">
-                <a href="/login" class="btn hvr-hover col-lg-6" style="color:white; background-color: blue;">Existing Customer? Log in here</a>
+
+            <div class="md:col-span-2">
+                <label for="email" class="block font-medium text-gray-700 mb-1">E-mail Address</label>
+                <input type="email" name="email" value="{{ email }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="phone" class="block font-medium text-gray-700 mb-1">Mobile Number</label>
+                <input type="tel" name="phone" value="{{ phone }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div>
+                <label for="state" class="block font-medium text-gray-700 mb-1">Country</label>
+                <input type="text" name="state" value="{{ state }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div>
+                <label for="city" class="block font-medium text-gray-700 mb-1">City/County</label>
+                <input type="text" name="city" value="{{ city }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="pass1" class="block font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" name="pass1" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="md:col-span-2">
+                <label for="pass2" class="block font-medium text-gray-700 mb-1">Confirm Password</label>
+                <input type="password" name="pass2" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-200">
             </div>
         </div>
-        <div class="col-md-3"></div>
+
+        <div class="flex items-center space-x-2">
+            <input id="tnc" type="checkbox" required class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+            <label for="tnc" class="text-gray-700 text-sm">I accept the Terms of Use & Privacy Policy</label>
+        </div>
+
+        <div class="pt-4 text-center">
+            <button type="submit" class="w-full md:w-1/2 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+                Create Account
+            </button>
+        </div>
+    </form>
+
+    <div class="text-center mt-6">
+        <p class="text-sm text-gray-600">Already have an account?</p>
+        <a href="/login" class="inline-block mt-2 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition">Log in here</a>
     </div>
 </div>
-
 {% endblock %}

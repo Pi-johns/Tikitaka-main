@@ -29,7 +29,7 @@ except KeyError as e:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['192.168.88.239', '0.0.0.0', '127.0.0.1', '192.168.1.110', '*']
+ALLOWED_HOSTS = ['192.168.0.112', '0.0.0.0', '127.0.0.1', '192.168.1.110', '*']
 
 
 # Application definition

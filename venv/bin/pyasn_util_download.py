@@ -1,4 +1,4 @@
-#!/home/santoz/Desktop/pi/Tiki-main/venv/bin/python3
+#!/home/santoz/Desktop/.pi/Tiki-main/venv/bin/python3
 
 # Copyright (c) 2009-2017 Hadi Asghari
 #

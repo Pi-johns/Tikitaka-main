@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.timezone import now
+from django.utils.timezone import now, timezone
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 import uuid
 
@@ -37,16 +38,28 @@ class Product(models.Model):
     product_name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(max_length=1000)
-    brand = models.CharField(max_length=20, default="")
+    brand = models.CharField(max_length=20, default="Pools TikiTaka")  # Added default brand
     price = models.IntegerField(default=0)
+    old_price = models.IntegerField(default=0, blank=True, null=True)  # Added for showing discounts
     tag = models.CharField(default="New", choices=TAG, max_length=20)
     stock = models.IntegerField(default=10)
     product_img = models.ImageField(upload_to="images")
-    product_img1 = models.ImageField(upload_to="images")
-    product_img2 = models.ImageField(upload_to="images")
+    product_img1 = models.ImageField(upload_to="images", blank=True, null=True)  # Made optional
+    product_img2 = models.ImageField(upload_to="images", blank=True, null=True)  # Made optional
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    specs = models.JSONField(default=dict, blank=True)  # For storing specifications
 
     def __str__(self):
         return self.product_name
+
+    def get_absolute_url(self):
+        return reverse('productdetail', args=[str(self.id)])
+
+    @property
+    def is_new(self):
+        """Check if product was added in the last 30 days"""
+        return (timezone.now() - self.created_at).days <= 30
 
 
 class Cart(models.Model):

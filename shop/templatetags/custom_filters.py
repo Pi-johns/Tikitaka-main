@@ -21,3 +21,8 @@ def get_rating_count(products_with_ratings_info, product_id):
         if isinstance(item, dict) and item.get('product').id == product_id:
             return item.get('rating_count', 0)
     return 0
+
+@register.filter
+def multiply(value, arg):
+    """Multiply the value by the arg"""
+    return float(value) * float(arg)

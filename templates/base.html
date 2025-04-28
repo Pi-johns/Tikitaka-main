@@ -16,6 +16,12 @@
 <!-- Slick Carousel -->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -104,6 +110,34 @@
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
+        /* For description bullets */
+.prose ul {
+    list-style: none;
+    padding-left: 0;
+}
+.prose li {
+    margin-bottom: 0.5rem;
+}
+
+/* For rating stars */
+.rating-stars {
+    display: inline-flex;
+    align-items: center;
+}
+.rating-stars .star {
+    color: #e5e7eb; /* Default gray */
+}
+.rating-stars .star.active {
+    color: #f59e0b; /* Yellow for active stars */
+}
+
+/* For product gallery */
+.swiper-slide img {
+    transition: transform 0.3s ease;
+}
+.swiper-slide:hover img {
+    transform: scale(1.05);
+}
     </style>
 </head>
 
