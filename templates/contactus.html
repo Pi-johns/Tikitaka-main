@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}
@@ -7,70 +6,69 @@ Contact Us | Pools TikiTaka
 {% endblock %}
 
 {% block body %}
-    <!-- Breadcrumb Start -->
-    <div class="container-fluid">
-        <div class="row px-xl-5">
-            <div class="col-12">
-                <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="/">Home</a>
-                    <span class="breadcrumb-item active">Contact</span>
-                </nav>
+
+<!-- Breadcrumb -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <nav class="text-sm mb-6 text-gray-600" aria-label="Breadcrumb">
+        <ol class="list-none p-0 inline-flex">
+            <li class="flex items-center">
+                <a href="/" class="hover:underline text-gray-800">Home</a>
+                <svg class="h-4 w-4 mx-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path d="M7.05 4.05a.5.5 0 000 .7L10.29 8.5 7.05 11.74a.5.5 0 00.7.7l3.5-3.5a.5.5 0 000-.7l-3.5-3.5a.5.5 0 00-.7 0z"/></svg>
+            </li>
+            <li>
+                <span class="text-gray-500">Contact</span>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Contact Section -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 border-l-4 border-blue-600 pl-4">Contact Us</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Contact Form -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <form id="contactForm" name="sentMessage" novalidate>
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-semibold text-gray-700">Your Name</label>
+                    <input type="text" id="name" class="w-full mt-1 border border-gray-300 rounded-md px-4 py-2 focus:ring focus:ring-blue-200" required>
+                    <p class="text-red-500 text-sm mt-1 hidden">Please enter your name</p>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-semibold text-gray-700">Your Email</label>
+                    <input type="email" id="email" class="w-full mt-1 border border-gray-300 rounded-md px-4 py-2 focus:ring focus:ring-blue-200" required>
+                    <p class="text-red-500 text-sm mt-1 hidden">Please enter your email</p>
+                </div>
+                <div class="mb-4">
+                    <label for="subject" class="block text-sm font-semibold text-gray-700">Subject</label>
+                    <input type="text" id="subject" class="w-full mt-1 border border-gray-300 rounded-md px-4 py-2 focus:ring focus:ring-blue-200" required>
+                    <p class="text-red-500 text-sm mt-1 hidden">Please enter a subject</p>
+                </div>
+                <div class="mb-6">
+                    <label for="message" class="block text-sm font-semibold text-gray-700">Message</label>
+                    <textarea id="message" rows="6" class="w-full mt-1 border border-gray-300 rounded-md px-4 py-2 focus:ring focus:ring-blue-200" required></textarea>
+                    <p class="text-red-500 text-sm mt-1 hidden">Please enter your message</p>
+                </div>
+                <div>
+                    <button type="submit" id="sendMessageButton" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contact Info and Map -->
+        <div class="space-y-6">
+            <div class="rounded-lg overflow-hidden shadow-md">
+                <iframe class="w-full h-64" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.9589594690674!2d36.87650794562295!3d-1.2597315951329653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f15a07b30d99d%3A0xe9e1c2d44a4b5b28!2sTiki%20Taka%20Pool%20Table!5e0!3m2!1sen!2ske!4v1722447911282!5m2!1sen!2ske" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="bg-white p-6 shadow-md rounded-lg space-y-4">
+                <p class="flex items-start"><i class="fas fa-map-marker-alt text-blue-600 mr-3 mt-1"></i>Along Outering Road, Joy Divine Children Organisation, Opposite Muharata Agriculture Machinery & Food Co Ltd and Family Bank, Nairobi</p>
+                <p class="flex items-center"><i class="fas fa-envelope text-blue-600 mr-3"></i><a href="mailto:info@poolstikitaka.com" class="hover:underline">info@poolstikitaka.com</a></p>
+                <p class="flex items-center"><i class="fas fa-phone-alt text-blue-600 mr-3"></i><a href="tel:+254723817996" class="hover:underline">+254723817996</a></p>
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
+</div>
 
-
-    <!-- Contact Start -->
-    <div class="container-fluid">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Contact Us</span></h2>
-        <div class="row px-xl-5">
-            <div class="col-lg-7 mb-5">
-                <div class="contact-form bg-light p-30">
-                    <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                        <div class="control-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name"
-                                required="required" data-validation-required-message="Please enter your name" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email"
-                                required="required" data-validation-required-message="Please enter your email" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                required="required" data-validation-required-message="Please enter a subject" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div class="control-group">
-                            <textarea class="form-control" rows="8" id="message" placeholder="Message"
-                                required="required"
-                                data-validation-required-message="Please enter your message"></textarea>
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div>
-                            <button class="btn  py-2 px-4" type="submit" style="color: white; background-color: blue;" id="sendMessageButton">Send
-                                Message</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-5 mb-5">
-                <div class="bg-light p-30 mb-30">
-                    <iframe style="width: 100%; height: 250px;"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.9589594690674!2d36.87650794562295!3d-1.2597315951329653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f15a07b30d99d%3A0xe9e1c2d44a4b5b28!2sTiki%20Taka%20Pool%20Table!5e0!3m2!1sen!2ske!4v1722447911282!5m2!1sen!2ske"
-                    frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                </div>
-                <div class="bg-light p-30 mb-3">
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-dark mr-3"></i>Along Outering Road, Joy Divine Children Organisation, Opposite Muharata Agriculture Machinery & Food Co Ltd and Family Bank,, Nairobi</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-dark mr-3"></i><a href="" style="color: black;">info@poolstikitaka.com</a></p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-dark mr-3"></i><a href="tel:+254723817996" style="color: black;">+254723817996</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Contact End -->
-
-    {% endblock %}
+{% endblock %}
