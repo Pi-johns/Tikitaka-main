@@ -1,4 +1,5 @@
 from django import template
+import math
 
 register = template.Library()
 
@@ -26,3 +27,13 @@ def get_rating_count(products_with_ratings_info, product_id):
 def multiply(value, arg):
     """Multiply the value by the arg"""
     return float(value) * float(arg)
+
+@register.filter
+def readtime(wordcount):
+    # Average reading speed: 200 words per minute
+    minutes = math.ceil(wordcount / 200)
+    return f"{minutes} min read"
+
+@register.filter
+def dict_get(d, key):
+    return d.get(key)

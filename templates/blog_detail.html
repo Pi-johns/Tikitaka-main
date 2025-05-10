@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load custom_filters %}
+{% block title %}
+{{ blog.title }} | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="bg-blue-100 text-blue-800 px-4 py-3 rounded relative mb-4 max-w-screen-xl mx-auto" role="alert">
+        <span class="block sm:inline">{{ message }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-blue-500" role="button" onclick="this.parentElement.parentElement.style.display='none'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.914l-2.934 2.935a1 1 0 01-1.414-1.415l2.935-2.934-2.935-2.934a1 1 0 011.414-1.415L10 9.086l2.934-2.935a1 1 0 111.415 1.415L11.414 10l2.935 2.934a1 1 0 010 1.415z"/></svg>
+        </span>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<div class="bg-white py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Article Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{{ blog.title }}</h1>
+            
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="flex-shrink-0">
+                    <img class="h-10 w-10 rounded-full" src="{% static 'images/default-avatar.png' %}" alt="{{ blog.author.username }}">
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-900">{{ blog.author.get_full_name|default:blog.author.username }}</p>
+                    <div class="flex space-x-1 text-sm text-gray-500">
+                        <time datetime="{{ blog.created_at|date:'Y-m-d' }}">{{ blog.created_at|naturalday }}</time>
+                        <span aria-hidden="true">&middot;</span>
+                        <span>{{ blog.content|wordcount|readtime }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            {% if blog.image %}
+            <div class="mb-6 rounded-lg overflow-hidden">
+                <img class="w-full h-auto" src="{{ blog.image.url }}" alt="{{ blog.title }}">
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Article Content -->
+        <article class="prose prose-lg max-w-none text-gray-700 mb-12">
+            {{ blog.content|safe }}
+        </article>
+
+        <!-- Article Footer -->
+        <div class="border-t border-gray-200 pt-6 mb-12">
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-600">Share:</span>
+                <div class="flex space-x-3">
+                    <a href="#" class="text-gray-500 hover:text-primary transition">
+                        <span class="sr-only">Facebook</span>
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-primary transition">
+                        <span class="sr-only">Twitter</span>
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-primary transition">
+                        <span class="sr-only">LinkedIn</span>
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="border-t border-gray-200 pt-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Comments ({{ blog.comments.count }})</h2>
+            
+            <!-- Comment Form -->
+            {% if request.user.is_authenticated %}
+            <div class="mb-8">
+                <form method="POST" action="{% url 'add_comment' blog.slug %}">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="comment" class="sr-only">Comment</label>
+                        <textarea id="comment" name="content" rows="3" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" placeholder="Write your comment..."></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Post Comment
+                        </button>
+                    </div>
+                </form>
+            </div>
+            {% else %}
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700">
+                            You must be <a href="/login" class="font-medium underline">logged in</a> to post a comment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Comments List -->
+            <div class="space-y-6">
+                {% for comment in comments %}
+                <div class="flex space-x-4" id="comment-{{ comment.id }}">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-full" src="{% static 'images/default-avatar.png' %}" alt="{{ comment.user.username }}">
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900">{{ comment.user.get_full_name|default:comment.user.username }}</h4>
+                                    <p class="text-xs text-gray-500">{{ comment.created_at|naturaltime }}</p>
+                                </div>
+                                {% if request.user == comment.user %}
+                                <form method="POST" action="{% url 'delete_comment' comment.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-gray-400 hover:text-red-500 text-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            <p class="mt-2 text-sm text-gray-700">{{ comment.content }}</p>
+                            
+                            <!-- Comment Actions -->
+                            <div class="mt-3 flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <button class="like-btn text-gray-500 hover:text-primary transition" data-comment-id="{{ comment.id }}" data-action="up">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </button>
+                                    <span class="text-xs text-gray-500" id="likes-{{ comment.id }}">{{ comment.likes_count }}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <button class="like-btn text-gray-500 hover:text-primary transition" data-comment-id="{{ comment.id }}" data-action="down">
+                                        <i class="far fa-thumbs-down"></i>
+                                    </button>
+                                    <span class="text-xs text-gray-500" id="dislikes-{{ comment.id }}">{{ comment.likes_count }}</span>
+                                </div>
+                                {% if request.user.is_authenticated %}
+                                <button class="reply-btn text-xs text-gray-500 hover:text-primary transition" data-comment-id="{{ comment.id }}">
+                                    Reply
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Reply Form (hidden by default) -->
+                        {% if request.user.is_authenticated %}
+                        <div id="reply-form-{{ comment.id }}" class="mt-4 pl-4 hidden">
+                            <form method="POST" action="{% url 'add_comment' blog.slug %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                <div class="mb-2">
+                                    <label for="reply-{{ comment.id }}" class="sr-only">Reply</label>
+                                    <textarea id="reply-{{ comment.id }}" name="content" rows="2" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary text-sm" placeholder="Write your reply..."></textarea>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button type="button" class="cancel-reply-btn inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" data-comment-id="{{ comment.id }}">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-orange-700">
+                                        Post Reply
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Replies -->
+                        {% for reply in comment.replies.all %}
+                        <div class="mt-4 pl-4">
+                            <div class="flex space-x-3">
+                                <div class="flex-shrink-0">
+                                    <img class="h-8 w-8 rounded-full" src="{% static 'images/default-avatar.png' %}" alt="{{ reply.user.username }}">
+                                </div>
+                                <div class="flex-1 bg-gray-50 p-3 rounded-lg">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-xs font-medium text-gray-900">{{ reply.user.get_full_name|default:reply.user.username }}</h4>
+                                            <p class="text-xs text-gray-500">{{ reply.created_at|naturaltime }}</p>
+                                        </div>
+                                        {% if request.user == reply.user %}
+                                        <form method="POST" action="{% url 'delete_comment' reply.id %}" class="inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="text-gray-400 hover:text-red-500 text-xs">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-700">{{ reply.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Posts (optional) -->
+{% if related_posts %}
+<div class="bg-gray-50 py-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">You might also like</h2>
+        <div class="grid gap-8 md:grid-cols-2">
+            {% for post in related_posts %}
+            <article>
+                <a href="{% url 'blog_detail' post.slug %}" class="block">
+                    {% if post.image %}
+                    <div class="h-48 w-full overflow-hidden rounded-lg mb-4">
+                        <img class="w-full h-full object-cover" src="{{ post.image.url }}" alt="{{ post.title }}">
+                    </div>
+                    {% endif %}
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2 hover:text-primary transition">{{ post.title }}</h3>
+                    <p class="text-gray-600">{{ post.content|truncatewords:20|striptags }}</p>
+                    <div class="mt-4 flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="h-8 w-8 rounded-full" src="{% static 'images/default-avatar.png' %}" alt="{{ post.author.username }}">
+                        </div>
+                        <div class="ml-2">
+                            <p class="text-sm font-medium text-gray-900">{{ post.author.get_full_name|default:post.author.username }}</p>
+                            <div class="flex space-x-1 text-xs text-gray-500">
+                                <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|naturalday }}</time>
+                                <span>&middot;</span>
+                                <span>{{ post.content|wordcount|readtime }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Like/Dislike functionality
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.dataset.commentId;
+            const action = this.dataset.action;
+            
+            fetch("{% url 'like_comment' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `comment_id=${commentId}&action=${action}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`likes-${commentId}`).textContent = data.likes;
+                document.getElementById(`dislikes-${commentId}`).textContent = data.dislikes;
+            });
+        });
+    });
+    
+    // Reply functionality
+    document.querySelectorAll('.reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.dataset.commentId;
+            document.getElementById(`reply-form-${commentId}`).classList.remove('hidden');
+        });
+    });
+    
+    document.querySelectorAll('.cancel-reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const commentId = this.dataset.commentId;
+            document.getElementById(`reply-form-${commentId}`).classList.add('hidden');
+        });
+    });
+});
+</script>
+{% endblock %}

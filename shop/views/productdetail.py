@@ -100,7 +100,19 @@ def productdetail(request, prid):
     bestsellers = get_bestsellers()
     
     # Prepare specifications (assuming product.specs is a JSONField)
-    specs = getattr(product, 'specs', {})
+    raw_specs = getattr(product, 'specs', {})
+    def flatten_specs(specs):
+        result = []
+        for key, value in specs.items():
+            if isinstance(value, dict):
+                for subkey, subval in value.items():
+                    result.append((f"{key.replace('_', ' ').title()} - {subkey.replace('_', ' ').title()}", subval))
+            else:
+                result.append((key.replace('_', ' ').title(), value))
+        return result
+
+    specs = flatten_specs(raw_specs)
+
     
     details = {
         'customer': customer,

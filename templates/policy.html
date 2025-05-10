@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Return Policy | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+<section class="bg-white py-16">
+  <div class="max-w-4xl mx-auto px-6 lg:px-8">
+    
+    <!-- Breadcrumb -->
+    <nav class="text-sm mb-6 text-gray-500">
+      <a href="/" class="hover:text-primary">Home</a>
+      <span class="mx-2">›</span>
+      <span class="text-gray-700 font-medium">Return Policy</span>
+    </nav>
+
+    <!-- Page Title -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 italic">Return & Refund Policy</h1>
+
+    <!-- Intro -->
+    <p class="text-gray-700 mb-6 text-lg">
+      At <strong>Tikitaka Pool Tables</strong>, we are committed to making sure you are happy with your purchase. If something doesn’t go as expected, we’re here to help!
+    </p>
+
+    <div class="space-y-10 text-gray-700 text-base leading-relaxed">
+      <!-- Return Eligibility -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">✅ Return Eligibility</h2>
+        <p>Products can be returned within <strong>6 days of delivery</strong> if:</p>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li>The product has manufacturing defects.</li>
+          <li>You received a different item from what you ordered.</li>
+        </ul>
+        <p class="mt-2">Returned items must be unused, in original condition, and with all packaging intact.</p>
+      </div>
+
+      <!-- How to Request -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">📦 How to Request a Return</h2>
+        <p>Contact us via WhatsApp or phone call within 6 days of delivery. You will need to share:</p>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li>Your order number</li>
+          <li>Clear photos showing the issue</li>
+          <li>A brief explanation of the problem</li>
+        </ul>
+      </div>
+
+      <!-- Refunds -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">💰 Refunds</h2>
+        <p>
+          Once we inspect and approve the return, your refund will be processed within <strong>3–5 business days</strong>.
+          Refunds are made via the original payment method unless otherwise agreed.
+        </p>
+      </div>
+
+      <!-- Non-returnable Items -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">🚫 Non-Returnable Items</h2>
+        <ul class="list-disc pl-6 mt-2 space-y-1">
+          <li>Items damaged after delivery due to mishandling</li>
+          <li>Returns due to change of mind</li>
+        </ul>
+      </div>
+
+      <!-- Help -->
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Need Help?</h2>
+        <p>
+          We're always here for you. Reach out through our
+          <a href="/contactus" class="text-primary hover:underline">contact page</a> or call us directly.
+        </p>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+
+  <!-- Trust Badges Section -->
+<div class="bg-white py-8 border-t border-b border-gray-200">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-shield-alt text-primary text-xl"></i>
+                </div>
+                <h4 class="font-medium text-gray-800">Quality Assurance</h4>
+                <p class="text-gray-500 text-sm mt-1">Premium products</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-truck text-primary text-xl"></i>
+                </div>
+                <h4 class="font-medium text-gray-800">Free Shipping</h4>
+                <p class="text-gray-500 text-sm mt-1">On orders over Ksh 50,000</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-undo-alt text-primary text-xl"></i>
+                </div>
+                <h4 class="font-medium text-gray-800">Easy Returns</h4>
+                <p class="text-gray-500 text-sm mt-1">Within 14 days</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+                    <i class="fas fa-headset text-primary text-xl"></i>
+                </div>
+                <h4 class="font-medium text-gray-800">24/7 Support</h4>
+                <p class="text-gray-500 text-sm mt-1">Dedicated support</p>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}

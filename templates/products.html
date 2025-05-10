@@ -45,11 +45,112 @@ Products | Pools TikiTaka
                 </div>
                 
                 <div class="p-4 lg:p-0">
+                    <!-- Reset Filters Button -->
+                    <div class="mb-4">
+                        <a href="/products" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded flex items-center justify-center transition">
+                            <i class="fas fa-sync-alt mr-2"></i> Reset All Filters
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded shadow-sm p-4 mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Categories</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="/products" class="block px-3 py-2 hover:bg-gray-50 rounded transition flex items-center justify-between {% if not filtered_category %}bg-primary bg-opacity-10 text-primary font-medium{% endif %}">
+                                    <span>All Products</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded">{{ all_products_count }}</span>
+                                </a>
+                            </li>
+                            {% for category in categories %}
+                            <li>
+                                <a href="?{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}{% if request.GET.rating %}rating={{ request.GET.rating }}&{% endif %}{% if request.GET.sort_by %}sort_by={{ request.GET.sort_by }}&{% endif %}category={{category.id}}" 
+                                   class="block px-3 py-2 hover:bg-gray-50 rounded transition flex items-center justify-between {% if filtered_category == category.category_name %}bg-primary bg-opacity-10 text-primary font-medium{% endif %}">
+                                    <span>{{ category.category_name }}</span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded">{{ category.product_count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded shadow-sm p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Filters</h3>
+                        <form id="filterForm" method="GET" action=".">
+                            <input type="hidden" name="category" value="{{ request.GET.category }}">
+                            
+                            <div class="space-y-4">
+                                <!-- Price Range Filter -->
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-2">Price Range</h4>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="number" name="price_min" placeholder="Min" value="{{ request.GET.price_min }}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
+                                        <span class="text-gray-500">-</span>
+                                        <input type="number" name="price_max" placeholder="Max" value="{{ request.GET.price_max }}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
+                                    </div>
+                                </div>
+
+                                <!-- Tags Filter -->
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-2">Tags</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        {% for tag in tags %}
+                                        <button type="submit" name="tag" value="{{ tag }}" class="inline-block px-3 py-1 {% if request.GET.tag == tag %}bg-primary text-white{% else %}bg-gray-100 hover:bg-primary hover:text-white{% endif %} rounded-full text-sm transition">
+                                            {{ tag }}
+                                        </button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- Rating Filter -->
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-2">Customer Rating</h4>
+                                    <div class="space-y-2">
+                                        {% for i in "54321" %}
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="radio" name="rating" value="{{ i }}" {% if request.GET.rating == i %}checked{% endif %} class="rounded text-primary focus:ring-primary" onchange="document.getElementById('filterForm').submit()">
+                                            <div class="flex items-center">
+                                                {% for star in "12345" %}
+                                                    {% if forloop.counter <= i|add:"0" %}
+                                                        <span class="text-yellow-400 text-sm fa fa-star"></span>
+                                                    {% else %}
+                                                        <span class="text-gray-300 text-sm fa fa-star"></span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <span class="text-gray-500 text-sm ml-1">& Up</span>
+                                            </div>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <!-- Sort Options -->
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-2">Sort By</h4>
+                                    <select name="sort_by" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary" onchange="document.getElementById('filterForm').submit()">
+                                        <option value="">Best Match</option>
+                                        <option value="price_asc" {% if request.GET.sort_by == 'price_asc' %}selected{% endif %}>Price Low to High</option>
+                                        <option value="price_desc" {% if request.GET.sort_by == 'price_desc' %}selected{% endif %}>Price High to Low</option>
+                                        <option value="rating" {% if request.GET.sort_by == 'rating' %}selected{% endif %}>Top Rated</option>
+                                        <option value="newest" {% if request.GET.sort_by == 'newest' %}selected{% endif %}>Newest Arrivals</option>
+                                    </select>
+                                </div>
+
+                                <!-- Apply Filters Button (Mobile) -->
+                                <div class="lg:hidden">
+                                    <button type="submit" class="w-full bg-primary hover:bg-orange-700 text-white font-medium py-2 px-4 rounded transition">
+                                        Apply Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
                     <!-- Bestsellers Section -->
                     <div class="bg-white rounded shadow-sm p-4 mb-4 lg:hidden">
                         <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Bestsellers</h3>
                         <div class="space-y-4">
-                            {% for product in bestsellers %}
+                            {% for product in products %}
+                            {% if product.tag == 'Bestseller' %}
                             <div class="flex items-start space-x-3">
                                 <a href="/productdetail/{{ product.id }}" class="flex-shrink-0">
                                     <img src="{{ product.product_img.url }}" alt="{{ product.product_name }}" class="w-16 h-16 object-cover rounded">
@@ -69,74 +170,8 @@ Products | Pools TikiTaka
                                     <p class="text-primary font-bold text-sm mt-1">Ksh {{ product.price|intcomma }}</p>
                                 </div>
                             </div>
+                            {% endif %}
                             {% endfor %}
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded shadow-sm p-4 mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Categories</h3>
-                        <ul class="space-y-2">
-                            <li>
-                                <a href="/products" class="block px-3 py-2 hover:bg-gray-50 rounded transition flex items-center justify-between {% if not filtered_category %}bg-primary bg-opacity-10 text-primary font-medium{% endif %}">
-                                    <span>All Products</span>
-                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded">{{ all_products_count }}</span>
-                                </a>
-                            </li>
-                            {% for category in categories %}
-                            <li>
-                                <a href="/products/?category={{category.id}}" class="block px-3 py-2 hover:bg-gray-50 rounded transition flex items-center justify-between {% if filtered_category == category.category_name %}bg-primary bg-opacity-10 text-primary font-medium{% endif %}">
-                                    <span>{{ category.category_name }}</span>
-                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded">{{ category.product_count }}</span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <div class="bg-white rounded shadow-sm p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Filters</h3>
-                        <div class="space-y-4">
-                            <!-- Price Range Filter -->
-                            <div>
-                                <h4 class="font-medium text-gray-700 mb-2">Price Range</h4>
-                                <div class="flex items-center space-x-2">
-                                    <input type="number" placeholder="Min" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
-                                    <span class="text-gray-500">-</span>
-                                    <input type="number" placeholder="Max" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
-                                </div>
-                            </div>
-
-                            <!-- Tags Filter -->
-                            <div>
-                                <h4 class="font-medium text-gray-700 mb-2">Tags</h4>
-                                <div class="flex flex-wrap gap-2">
-                                    {% for tag in tags %}
-                                    <a href="?tag={{ tag }}" class="inline-block px-3 py-1 bg-gray-100 hover:bg-primary hover:text-white rounded-full text-sm transition">{{ tag }}</a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-
-                            <!-- Rating Filter -->
-                            <div>
-                                <h4 class="font-medium text-gray-700 mb-2">Customer Rating</h4>
-                                <div class="space-y-2">
-                                    {% for i in "54321" %}
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                        <div class="flex items-center">
-                                            {% for star in "12345" %}
-                                                {% if forloop.counter <= i|add:"0" %}
-                                                    <span class="text-yellow-400 text-sm fa fa-star"></span>
-                                                {% else %}
-                                                    <span class="text-gray-300 text-sm fa fa-star"></span>
-                                                {% endif %}
-                                            {% endfor %}
-                                            <span class="text-gray-500 text-sm ml-1">& Up</span>
-                                        </div>
-                                    </label>
-                                    {% endfor %}
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,46 +192,42 @@ Products | Pools TikiTaka
                         <p class="text-gray-500 text-sm">Showing {{ n }} products</p>
                     </div>
                     
-                    <div class="flex items-center space-x-2">
-                        <span class="text-gray-600 text-sm">Sort by:</span>
-                        <select class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary">
-                            <option>Best Match</option>
-                            <option>Price Low to High</option>
-                            <option>Price High to Low</option>
-                            <option>Top Rated</option>
-                            <option>Newest Arrivals</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Bestsellers Section (Desktop) -->
-                <div class="hidden lg:block bg-white rounded shadow-sm p-4 mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">Bestsellers</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {% for product in bestsellers %}
-                        <div class="bg-gray-50 rounded p-3 hover:bg-gray-100 transition">
-                            <a href="/productdetail/{{ product.id }}" class="block">
-                                <img src="{{ product.product_img.url }}" alt="{{ product.product_name }}" class="w-full h-32 object-cover rounded mb-2">
-                                <h4 class="font-medium text-gray-800 hover:text-primary transition">{{ product.product_name|truncatechars:30 }}</h4>
-                                <div class="flex items-center mt-1">
-                                    <div class="text-yellow-400 text-xs">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="text-gray-500 text-xs ml-1">({{ product.rating_count }})</span>
-                                </div>
-                                <p class="text-primary font-bold text-sm mt-1">Ksh {{ product.price|intcomma }}</p>
+                    <!-- Active Filters -->
+                    <div class="flex flex-wrap gap-2">
+                        {% if request.GET.price_min or request.GET.price_max %}
+                        <span class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
+                            Price: 
+                            {% if request.GET.price_min %}Ksh {{ request.GET.price_min|intcomma }}{% endif %}
+                            {% if request.GET.price_min and request.GET.price_max %} - {% endif %}
+                            {% if request.GET.price_max %}Ksh {{ request.GET.price_max|intcomma }}{% endif %}
+                            <a href="?{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}{% if request.GET.rating %}rating={{ request.GET.rating }}&{% endif %}{% if request.GET.sort_by %}sort_by={{ request.GET.sort_by }}{% endif %}" class="ml-1 text-gray-500 hover:text-primary">
+                                <i class="fas fa-times"></i>
                             </a>
-                        </div>
-                        {% endfor %}
+                        </span>
+                        {% endif %}
+                        
+                        {% if request.GET.tag %}
+                        <span class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
+                            Tag: {{ request.GET.tag }}
+                            <a href="?{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}{% if request.GET.rating %}rating={{ request.GET.rating }}&{% endif %}{% if request.GET.sort_by %}sort_by={{ request.GET.sort_by }}{% endif %}" class="ml-1 text-gray-500 hover:text-primary">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                        {% endif %}
+                        
+                        {% if request.GET.rating %}
+                        <span class="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm">
+                            Rating: {{ request.GET.rating }} stars & up
+                            <a href="?{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}{% if request.GET.tag %}tag={{ request.GET.tag }}&{% endif %}{% if request.GET.sort_by %}sort_by={{ request.GET.sort_by }}{% endif %}" class="ml-1 text-gray-500 hover:text-primary">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                        {% endif %}
                     </div>
                 </div>
 
                 <!-- Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {% for product in products %}
                     <div class="bg-white rounded shadow-sm overflow-hidden hover:shadow-md transition relative group">
                         <div class="relative">
@@ -218,11 +249,18 @@ Products | Pools TikiTaka
                             
                             <div class="flex items-center mb-2">
                                 <div class="flex items-center text-yellow-400 text-xs">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+                                    {% with avg_rating=products_with_ratings_info|dict_get:product.id|default_if_none:"0" %}
+
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= avg_rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% elif forloop.counter|add:"-0.5" <= avg_rating %}
+                                                <i class="fas fa-star-half-alt"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endwith %}
                                 </div>
                                 {% with rating_count=products_with_ratings_info|get_rating_count:product.id %}
                                     <span class="text-gray-500 text-xs ml-1">({{ rating_count }})</span>
@@ -236,7 +274,7 @@ Products | Pools TikiTaka
                                     <p class="text-gray-400 text-sm line-through">Ksh {{ product.old_price|intcomma }}</p>
                                     {% endif %}
                                 </div>
-                                <span class="text-xs text-gray-500">MOQ: 1</span>
+                                <span class="text-xs text-gray-500">MOQ: {{ product.stock }}</span>
                             </div>
                             
                             <div class="mt-3 flex justify-between items-center">
@@ -257,7 +295,8 @@ Products | Pools TikiTaka
                 <div class="mt-6 bg-white rounded shadow-sm p-4 flex justify-center">
                     <nav class="flex items-center space-x-2">
                         {% if products.has_previous %}
-                        <a href="?page={{ products.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">
+                        <a href="?page={{ products.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price_min %}&price_min={{ request.GET.price_min }}{% endif %}{% if request.GET.price_max %}&price_max={{ request.GET.price_max }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}" 
+                           class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">
                             <i class="fas fa-chevron-left text-gray-600"></i>
                         </a>
                         {% endif %}
@@ -266,12 +305,14 @@ Products | Pools TikiTaka
                             {% if products.number == i %}
                             <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded">{{ i }}</span>
                             {% else %}
-                            <a href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">{{ i }}</a>
+                            <a href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price_min %}&price_min={{ request.GET.price_min }}{% endif %}{% if request.GET.price_max %}&price_max={{ request.GET.price_max }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}" 
+                               class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">{{ i }}</a>
                             {% endif %}
                         {% endfor %}
 
                         {% if products.has_next %}
-                        <a href="?page={{ products.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">
+                        <a href="?page={{ products.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.price_min %}&price_min={{ request.GET.price_min }}{% endif %}{% if request.GET.price_max %}&price_max={{ request.GET.price_max }}{% endif %}{% if request.GET.tag %}&tag={{ request.GET.tag }}{% endif %}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}" 
+                           class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 transition">
                             <i class="fas fa-chevron-right text-gray-600"></i>
                         </a>
                         {% endif %}
@@ -352,6 +393,19 @@ Products | Pools TikiTaka
             body.style.overflow = '';
         }
     });
+
+    // Auto-submit price range when both fields are filled
+    const priceMinInput = document.querySelector('input[name="price_min"]');
+    const priceMaxInput = document.querySelector('input[name="price_max"]');
+    
+    function checkPriceRange() {
+        if (priceMinInput.value && priceMaxInput.value) {
+            document.getElementById('filterForm').submit();
+        }
+    }
+    
+    priceMinInput.addEventListener('change', checkPriceRange);
+    priceMaxInput.addEventListener('change', checkPriceRange);
 </script>
 
 {% endblock %}

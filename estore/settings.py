@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'channels',
     'django_social_share',
     'slides',
+    'blogs',
 ]
 
 MIDDLEWARE = [

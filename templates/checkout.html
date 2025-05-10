@@ -8,92 +8,143 @@ Checkout | Pools TikiTaka
 {% endblock %}
 
 {% block body %}
-<div class="cart-box-main">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-lg-12 mb-3">
-                <div class="odr-box">
-                    <div class="title-left">
-                        <h3>Shopping Cart</h3>
-                    </div>
-                    <div class="rounded p-2 bg-light">
-                        {% for cart in carts %}
-                        <div class="media mb-2 border-bottom">
-                            <div class="media-body"> <a href="/productdetail/{{cart.product_id}}"> {{cart.product.product_name}}</a>
-                                <div class="small text-muted">Price: ksh {{cart.price|floatformat:2|intcomma}} <span class="mx-2">|</span> Qty: {{cart.qty}} <span class="mx-2">|</span> Subtotal: ksh {{cart.amount|floatformat:2|intcomma}}</div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-12 mb-3">
-                <div class="odr-box">
-                    <div class="title-left mb-4">
-                        <h3>Your order</h3>
-                    </div>
-                    <div class="d-flex">
-                        <h4>Sub Total</h4>
-                        <div class="ml-auto font-weight-bold">ksh {{total|floatformat:2|intcomma}}</div>
-                    </div>
+
+<div class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+      <!-- Order Summary Section -->
+      <div class="mb-8 lg:mb-0">
+        <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
+          <div class="px-6 py-5 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-900">Order Summary</h3>
+          </div>
           
-                    <hr class="mb-4">
-                    <div class="d-flex">
-                        <h4>Shipping Cost</h4>
-                        <div class="ml-auto font-weight-bold"> </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex gr-total">
-                        <h5>Grand Total</h5>
-                        <div class="ml-auto h5">ksh {{total|floatformat:2|intcomma}}</div>
-                    </div>
-                    <hr>
-                    </div>
+          <div class="px-6 py-4">
+            <div class="space-y-4">
+              {% for cart in carts %}
+              <div class="flex items-start border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden">
+                  <a href="/productdetail/{{cart.product_id}}">
+                    <img class="h-full w-full object-cover" src="{{cart.product.product_img.url}}" alt="{{cart.product.product_name}}">
+                  </a>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-lg-6 mb-3">
-                    <div class="checkout-address">
-                        <div class="title-left">
-                            <h3>Billing address</h3>
-                        </div>
-                        <form class="needs-validation" action='/checkout/' method="POST">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="firstname">First name *</label>
-                                    <input type="text" class="form-control" name="firstname" value="{{myuser.first_name}}" placeholder="" value="" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="lastname">Last name *</label>
-                                    <input type="text" class="form-control" name="lastname" value="{{myuser.last_name}}" placeholder="" value="" required>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone">Mobile No. *</label>
-                                <div class="input-group">
-                                    <input type="tel" class="form-control" name="phone" value="{{customer.phone}}" placeholder="" required>
-                                </div>
-                            </div>
-                             <div class="row">
-                                <div class="col-md-5 mb-3">
-                                    <label for="state">Country *</label>
-                                    <input class="form-control wide w-100" name="state" value="{{customer.state}}" placeholder="" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="city">City/County *</label>
-                                    <input class="form-control wide w-100" name="city" value="{{customer.city}}" placeholder="" required>
-                                </div>
-                       
-                            </div>
-                    </div>
+                <div class="ml-4 flex-1">
+                  <a href="/productdetail/{{cart.product_id}}" class="text-sm font-medium text-gray-900 hover:text-primary">
+                    {{cart.product.product_name}}
+                  </a>
+                  <div class="mt-1 flex text-sm text-gray-500 space-x-2">
+                    <span>Ksh {{cart.price|floatformat:2|intcomma}}</span>
+                    <span class="text-gray-300">•</span>
+                    <span>Qty: {{cart.qty}}</span>
+                  </div>
                 </div>
+                <div class="ml-4 text-sm font-medium text-gray-900">
+                  Ksh {{cart.amount|floatformat:2|intcomma}}
+                </div>
+              </div>
+              {% endfor %}
             </div>
-            <div class="shopping-box text-center"> <button type="submit" class="ml-auto btn hvr-hover" style=" color:white; background-color: blue;" >Place Order
-            </button>
-            <h6 style="margin-top: 50px;">If You Have Any Problem With Placing Your Order Please Contact Us.<a href="tel:+254723817996" style="color: red;"><strong> <small class="fa fa-phone text-dark mr-1"></small> Call Now<strong> </a> </h6>
+            
+            <!-- Order Totals -->
+            <div class="mt-6 border-t border-gray-200 pt-6">
+              <div class="flex justify-between text-base font-medium text-gray-900 mb-2">
+                <p>Subtotal</p>
+                <p>Ksh {{total|floatformat:2|intcomma}}</p>
+              </div>
+              <div class="flex justify-between text-base font-medium text-gray-900 mb-2">
+                <p>Shipping</p>
+                <p>Calculated at checkout</p>
+              </div>
+              <div class="flex justify-between text-lg font-bold text-gray-900 mt-4 pt-4 border-t border-gray-200">
+                <p>Total</p>
+                <p>Ksh {{total|floatformat:2|intcomma}}</p>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Checkout Form Section -->
+      <div>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-900">Billing Information</h3>
+          </div>
+          
+          <div class="px-6 py-4">
+            <form class="space-y-6" action="/checkout/" method="POST">
+              {% csrf_token %}
+              
+              <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                <!-- First Name -->
+                <div>
+                  <label for="firstname" class="block text-sm font-medium text-gray-700">First name *</label>
+                  <div class="mt-1">
+                    <input type="text" id="firstname" name="firstname" value="{{myuser.first_name}}" required
+                      class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary">
+                  </div>
+                </div>
+                
+                <!-- Last Name -->
+                <div>
+                  <label for="lastname" class="block text-sm font-medium text-gray-700">Last name *</label>
+                  <div class="mt-1">
+                    <input type="text" id="lastname" name="lastname" value="{{myuser.last_name}}" required
+                      class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary">
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Phone -->
+              <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700">Mobile No. *</label>
+                <div class="mt-1">
+                  <input type="tel" id="phone" name="phone" value="{{customer.phone}}" required
+                    class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                <!-- Country -->
+                <div>
+                  <label for="state" class="block text-sm font-medium text-gray-700">Country *</label>
+                  <div class="mt-1">
+                    <input type="text" id="state" name="state" value="{{customer.state}}" required
+                      class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary">
+                  </div>
+                </div>
+                
+                <!-- City -->
+                <div>
+                  <label for="city" class="block text-sm font-medium text-gray-700">City/County *</label>
+                  <div class="mt-1">
+                    <input type="text" id="city" name="city" value="{{customer.city}}" required
+                      class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary">
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Place Order Button -->
+              <div class="pt-4">
+                <button type="submit"
+                  class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                  Place Order
+                </button>
+              </div>
+            </form>
+            
+            <!-- Support Contact -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+              <p>If you have any problem placing your order, please contact us.</p>
+              <a href="tel:+254723817996" class="mt-2 inline-flex items-center text-red-600 hover:text-red-800 font-medium">
+                <i class="fas fa-phone mr-2"></i> Call Now: +254 723 817 996
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+
 {% endblock %}

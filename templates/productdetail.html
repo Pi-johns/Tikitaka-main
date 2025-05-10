@@ -177,11 +177,12 @@
                         <h3 class="text-lg font-semibold text-gray-900 mb-3">Key Specifications</h3>
                         <div class="grid grid-cols-2 gap-3">
                             {% for spec in specs|slice:":6" %}
-                            <div class="flex">
-                                <span class="text-gray-500 text-sm flex-shrink-0">{{ spec.0 }}:</span>
-                                <span class="text-gray-800 text-sm ml-1">{{ spec.1 }}</span>
-                            </div>
-                            {% endfor %}
+    <div class="flex">
+        <span class="text-gray-500 text-sm flex-shrink-0">{{ spec.0 }}:</span>
+        <span class="text-gray-800 text-sm ml-1">{{ spec.1 }}</span>
+    </div>
+{% endfor %}
+
                         </div>
                         <a href="#" class="text-blue-600 hover:text-primary text-sm mt-2 inline-block">View all specifications</a>
                     </div>
@@ -474,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {% for related_product in related_products %}
                     <div class="swiper-slide">
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">
-                            <div class="relative">
+                            <div>
                                 <a href="/productdetail/{{ related_product.id }}" class="block">
                                     <img src="{{ related_product.product_img.url }}" alt="{{ related_product.product_name }}" 
                                          class="w-full h-48 object-contain p-4">
@@ -509,7 +510,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                         <span class="text-blue-600 text-sm ml-1">{{ rating|floatformat:1 }}</span>
                                     </div>
-                                    <span class="text-gray-500 text-sm">| {{ no_of_reviews }} reviews</span>
+                                    <span class="text-gray-500 text-sm"> </span>
                                     {% if product.tag %}
                                     <span class="ml-3 text-red-500 px-2 py-1 rounded">✨</span>
 
