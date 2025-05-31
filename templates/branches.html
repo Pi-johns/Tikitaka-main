@@ -1,0 +1,402 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Our Branches | Pools TikiTaka
+{% endblock %}
+
+{% block body %}
+<div class="bg-gray-50">
+    <!-- Breadcrumb -->
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center text-sm">
+            <a href="/" class="text-blue-600 hover:text-primary">Home</a>
+            <span class="mx-2 text-gray-400">/</span>
+            <span class="text-gray-600">Our Branches</span>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <div class="relative text-black " >
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-3xl mx-auto text-center justify-center items-center rounded-lg bg-white shadow-lg p-8">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Find Your Nearest Pools TikiTaka Branch</h1>
+                <p class="text-xl mb-8">Experience premium pool tables and accessories at any of our conveniently located branches across Kenya</p>
+               
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Why Choose Us -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
+            <div class="md:flex">
+                <div class="md:w-1/2 p-8 md:p-12 bg-gradient-to-br from-primary to-secondary text-white">
+                    <h2 class="text-3xl font-bold mb-4">Why Visit Our Branches?</h2>
+                    <p class="text-lg mb-6">Nothing compares to seeing and feeling our premium pool tables in person. Our showrooms offer:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mt-1 mr-2"></i>
+                            <span>Hands-on experience with all our products</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mt-1 mr-2"></i>
+                            <span>Expert advice from our pool specialists</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mt-1 mr-2"></i>
+                            <span>Exclusive in-branch promotions and discounts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mt-1 mr-2"></i>
+                            <span>Immediate pickup for in-stock items</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle mt-1 mr-2"></i>
+                            <span>Professional installation services</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="{% static 'images/STORE.jpg' %}" alt="Pools TikiTaka Showroom" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- All Branches -->
+        <h2 class="text-3xl font-bold text-center mb-8">Our Branches Across Kenya</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Nairobi Branch -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="relative">
+                    <img src="{% static 'images/tikitaka.png' %}" alt="Nairobi Branch" class="w-full h-48 object-cover">
+                    <div class="absolute top-0 left-0 bg-primary text-white px-3 py-1 rounded-br-lg">
+                        <span class="font-semibold">Flagship Store</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Nairobi CBD</h3>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span>Kimathi Street, TikiTaka Plaza, 3rd Floor</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-phone-alt text-primary mr-2"></i>
+                        <span>+254 700 123 456</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        <span>Mon-Sat: 8:30AM - 6:30PM | Sun: 10AM - 4PM</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Free Parking</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Showroom</span>
+                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Repair Center</span>
+                    </div>
+                    <a href="https://maps.google.com/?q=TikiTaka+Plaza+Kimathi+Street" target="_blank" class="block w-full bg-primary hover:bg-orange-700 text-white text-center py-2 rounded-lg transition">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mombasa Branch -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="relative">
+                    <img src="{% static 'images/tikitaka.png' %}" alt="Mombasa Branch" class="w-full h-48 object-cover">
+                    <div class="absolute top-0 left-0 bg-secondary text-white px-3 py-1 rounded-br-lg">
+                        <span class="font-semibold">Coastal Hub</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Mombasa</h3>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span>Nyali Centre, 2nd Floor, Shop 12B</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-phone-alt text-primary mr-2"></i>
+                        <span>+254 700 123 457</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        <span>Mon-Sat: 9AM - 6PM | Sun: Closed</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Beach View</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Showroom</span>
+                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Tournament Venue</span>
+                    </div>
+                    <a href="https://maps.google.com/?q=Nyali+Centre+Mombasa" target="_blank" class="block w-full bg-primary hover:bg-orange-700 text-white text-center py-2 rounded-lg transition">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Nakuru Branch -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="relative">
+                    <img src="{% static 'images/tikitaka.png' %}" alt="Nakuru Branch" class="w-full h-48 object-cover">
+                    <div class="absolute top-0 left-0 bg-green-600 text-white px-3 py-1 rounded-br-lg">
+                        <span class="font-semibold">Rift Valley Center</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Nakuru</h3>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span>Westside Mall, Ground Floor</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-phone-alt text-primary mr-2"></i>
+                        <span>+254 700 123 458</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        <span>Mon-Sat: 8:30AM - 6PM | Sun: 11AM - 3PM</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Ample Parking</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Showroom</span>
+                        <span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Training Center</span>
+                    </div>
+                    <a href="https://maps.google.com/?q=Westside+Mall+Nakuru" target="_blank" class="block w-full bg-primary hover:bg-orange-700 text-white text-center py-2 rounded-lg transition">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Eldoret Branch -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="relative">
+                    <img src="{% static 'images/tikitaka.png' %}" alt="Nakuru Branch" class="w-full h-48 object-cover">
+                    <div class="absolute top-0 left-0 bg-green-600 text-white px-3 py-1 rounded-br-lg">
+                        <span class="font-semibold">Eldoret hub</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Eldoret</h3>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span>Uganda Road, TikiTaka Sports Complex</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-phone-alt text-primary mr-2"></i>
+                        <span>+254 700 123 459</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        <span>Mon-Sat: 9AM - 6PM | Sun: Closed</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Showroom</span>
+                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Championship Tables</span>
+                    </div>
+                    <a href="https://maps.google.com/?q=TikiTaka+Sports+Complex+Eldoret" target="_blank" class="block w-full bg-primary hover:bg-orange-700 text-white text-center py-2 rounded-lg transition">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Kisumu Branch -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="relative">
+                    <img src="{% static 'images/tikitaka.png' %}" alt="Kisumu Branch" class="w-full h-48 object-cover">
+                    <div class="absolute top-0 left-0 bg-blue-600 text-white px-3 py-1 rounded-br-lg">
+                        <span class="font-semibold">Narok Region Hub</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Narok</h3>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span>Mega Plaza, Oginga Odinga Street</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-3">
+                        <i class="fas fa-phone-alt text-primary mr-2"></i>
+                        <span>+254 700 123 460</span>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-clock text-primary mr-2"></i>
+                        <span>Mon-Sat: 9AM - 6PM | Sun: 11AM - 3PM</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Narok View</span>
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Showroom</span>
+                    </div>
+                    <a href="https://maps.google.com/?q=Mega+Plaza+Kisumu" target="_blank" class="block w-full bg-primary hover:bg-orange-700 text-white text-center py-2 rounded-lg transition">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coming Soon -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border-2 border-dashed border-gray-300 flex items-center justify-center">
+                <div class="p-8 text-center">
+                    <i class="fas fa-map-marked-alt text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Coming Soon</h3>
+                    <p class="text-gray-600 mb-4">We're expanding! New branches opening soon in:</p>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>Nanyuki</li>
+                        <li>Nyeri</li>
+                        <li>Kakamega</li>
+                    </ul>
+                    <button class="mt-6 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg transition">
+                        Notify Me
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
+            <div class="md:flex">
+                <div class="md:w-1/2 p-8">
+                    <h2 class="text-2xl font-bold mb-4">Find Us on the Map</h2>
+                    <p class="text-gray-600 mb-6">All our branches are strategically located for easy access with ample parking and welcoming showrooms.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-car text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-semibold mb-1">Convenient Locations</h4>
+                                <p class="text-gray-600">Centrally located in major shopping malls and business districts</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-parking text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-semibold mb-1">Ample Parking</h4>
+                                <p class="text-gray-600">Free and secure parking available at all locations</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-wheelchair text-primary mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-semibold mb-1">Accessibility</h4>
+                                <p class="text-gray-600">Wheelchair accessible facilities with elevators</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 h-96">
+                    <!-- Embedded Google Map -->
+                    <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.9589594690674!2d36.87650794562295!3d-1.2597315951329653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f15a07b30d99d%3A0xe9e1c2d44a4b5b28!2sTiki%20Taka%20Pool%20Table!5e0!3m2!1sen!2ske!4v1722447911282!5m2!1sen!2ske"  
+                        class="w-full h-full" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Branch Services -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-6">What You'll Find at Our Branches</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-table text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Showroom</h3>
+                    <p class="text-gray-600">Test our premium pool tables and accessories before you buy</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tools text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Service Center</h3>
+                    <p class="text-gray-600">Professional maintenance and repair services</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-graduation-cap text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Training</h3>
+                    <p class="text-gray-600">Free beginner lessons and professional coaching</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                    <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-trophy text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Events</h3>
+                    <p class="text-gray-600">Regular tournaments and special events</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials 
+        <div class="bg-primary rounded-xl p-8 text-white mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-center">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <img src="{% static 'images/testimonial1.jpg' %}" class="w-12 h-12 rounded-full object-cover mr-3" alt="Customer">
+                        <div>
+                            <h4 class="font-semibold">James K.</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p>"The Nairobi branch staff helped me choose the perfect table for my game room. Their expertise made all the difference!"</p>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <img src="{% static 'images/testimonial2.jpg' %}" class="w-12 h-12 rounded-full object-cover mr-3" alt="Customer">
+                        <div>
+                            <h4 class="font-semibold">Sarah W.</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p>"Mombasa branch has a stunning showroom with lake views. Bought my championship table here and couldn't be happier."</p>
+                </div>
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <img src="{% static 'images/testimonial3.jpg' %}" class="w-12 h-12 rounded-full object-cover mr-3" alt="Customer">
+                        <div>
+                            <h4 class="font-semibold">David R.</h4>
+                            <div class="flex text-yellow-300 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p>"The Nakuru team installed my table perfectly and even gave me free lessons. Best service in the Rift Valley!"</p>
+                </div>
+            </div>
+        </div>-->
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-primary to-secondary rounded-xl p-8 text-center text-white">
+            <h2 class="text-3xl font-bold mb-4">Ready to Visit Us?</h2>
+            <p class="text-xl mb-6 max-w-2xl mx-auto">Our friendly staff are waiting to help you find the perfect pool table for your home or business</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/contact" class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition">
+                    Contact Us First
+                </a>
+                <a href="/products" class="bg-transparent border-2 border-white hover:bg-white hover:text-primary px-6 py-3 rounded-lg font-semibold transition">
+                    Browse Products
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

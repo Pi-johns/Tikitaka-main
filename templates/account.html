@@ -9,237 +9,319 @@ My Account | Smart Pools
 
 {% block body %}
 
-
-
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{message}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    {% endfor %}
+  {% for message in messages %}
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded relative max-w-screen-xl mx-auto" role="alert">
+      <span class="block sm:inline">{{ message }}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onclick="this.parentElement.parentElement.style.display='none'">
+          <title>Close</title>
+          <path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.914l-2.934 2.935a1 1 0 01-1.414-1.415l2.935-2.934-2.935-2.934a1 1 0 011.414-1.415L10 9.086l2.934-2.935a1 1 0 111.415 1.415L11.414 10l2.934 2.934a1 1 0 010 1.415z"/>
+        </svg>
+      </span>
+    </div>
+  {% endfor %}
 {% endif %}
 
-<div class="my-account-box-main">
-    <div class="container">
-        <div class="my-account-page">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-all text-center">
-                        <h1>Account Information</h1>
-                    </div>
-                    <div class="title-left" id="profile">
-                        <h1 class="font-weight-bold"><i class="fas fa-user-circle pr-2"></i>Profile</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-12" style="margin-bottom:20px;">
-                            <div class="mb-4 ctr">
-                                <img src="{{customer.profile_pic.url}}" height="200px" alt="Image" style="border-radius: 25%;">
-                            </div>
-                            <div class="mb-2 ctr">
-                                <a href="/account/updateprofile" class="btn hvr-hover cart mx-1" style="color:white; background-color: blue;">Update Profile</a>
-                                <a href="/account/changepassword" class="btn hvr-hover cart mx-1" style="color:white; background-color: blue;">Change Password</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-12" style="margin-bottom:20px;">
-                            <div class="display-4" style="margin-bottom:20px">
-                                {{user.first_name}} {{user.last_name}}
-                            </div>
-                            <div class="table-main table-responsive" style="margin-bottom:20px">
-                                <table class="table">
-                                    <tr>
-                                        <td>E-mail</td>
-                                        <td>{{user.email}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mobile Number</td>
-                                        <td>{{customer.phone}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Country</td>
-                                        <td>{{customer.state}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Address</td>
-                                        <td> {{customer.city}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Customer Since</td>
-                                        <td>{{user.date_joined}}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title-left" id="wishlist">
-                        <h1 class="font-weight-bold"><i class="fas fa-heart pr-2"></i>Wishlist</h1>
-                    </div>
-                    {% if wishlists %}
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="table-main table-responsive" style="padding-bottom: 20px;">
-                                <table class="table">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th>S. No.</th>
-                                            <th>Image</th>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
-                                            <th>Added On</th>
-                                            <th>Add to Cart</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for wishlist in wishlists %}
-                                        <tr>
-                                            <td class="price-pr text-center">
-                                                <p>{{forloop.counter}}.</p>
-                                            </td>
-                                            <td class="thumbnail-img" style="text-align:center">
-                                                <a href="/productdetail/{{wishlist.product_id}}">
-                                                <img height="100" src="{{wishlist.product.product_img.url}}" alt="" />
-                                                </a>
-                                            </td>
-                                            <td class="name-pr">
-                                                <a href="/productdetail/{{wishlist.product_id}}">
-                                                {{wishlist.product.product_name}}
-                                                </a>
-                                            </td>
-                                            <td class="price-pr text-center">
-                                                <p>ksh {{wishlist.product.price|floatformat:2|intcomma}}</p>
-                                            </td>
-                                            <td class="quantity-box text-center">
-                                                <p>{{wishlist.added_on}}</p>
-                                            </td>
-                                            <td class="remove-pr">
-                                                <a href="/addtocart/{{wishlist.product_id}}"><i class="fas fa-cart-plus"></i></a>
-                                            </td>
-                                            <td class="remove-pr">
-                                                <a href="/removefromwishlist/{{wishlist.product_id}}"><i class="fas fa-trash"></i>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="title-all text-center">
-                                <h2>No items in your wishlist</h2>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    <div class="title-left" id="order-history">
-                        <h1 class="font-weight-bold"><i class="fas fa-history pr-2"></i>Order History</h1>
-                    </div>
-                    {% if orderprs %}
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                        {% for order in orders %}
-                            <div class="border border-dark mb-4" style="border-radius: 20px;">
-                                <div class="row my-2 mx-1">
-                                    <div class="col-lg-4 text-left"><strong>Order ID</strong> : {{order.code}}</div>
-                                    <div class="col-lg-4 text-center"><strong>Order Date</strong> : {{order.placed_at}}</div>
-                                    <div class="col-lg-4 text-right"><strong>Order Total</strong> : ksh {{order.total|floatformat:2|intcomma}}</div>
-                                </div>
-                                <div class="table-main table-responsive col-auto">
-                                    <table class="table">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th style="padding:0.25rem;">S. No.</th>
-                                                <th style="padding:0.25rem;">Product Name</th>
-                                                <th style="padding:0.25rem;">Price</th>
-                                                <th style="padding:0.25rem;">Quantity</th>
-                                                <th style="padding:0.25rem;">Total</th>
-                                                <th style="padding:0.25rem;">Order Status</th>
-                                                <th style="padding:0.25rem;">Payment Status</th>
-                                                <th style="padding:0.25rem;">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for orderpr in orderprs %}
-                                            {% for orderp in orderpr %}
-                                            {% if orderp.order_id == order.id %}
-                                            <tr>
-                                                <td class="name-pr text-center">
-                                                    {{forloop.counter}}.
-                                                </td>
-                                                <td class="name-pr">
-                                                    <a href="/productdetail/{{orderp.product_id}}" class="nav-link">
-                                                    {{orderp.product.product_name}}
-                                                    </a>
-                                                </td>
-                                                <td class="price-pr text-center">
-                                                    <p>ksh {{orderp.price|floatformat:2|intcomma}}</p>
-                                                </td>
-                                                <td class="quantity-box text-center">
-                                                    <p>{{orderp.qty}}</p>
-                                                </td>
-                                                <td class="total-pr text-center">
-                                                    <p>ksh {{orderp.amount|floatformat:2|intcomma}}</p>
-                                                </td>
-                                                <td class="name-pr text-center" style="color: #e9ecef;">
-                                                    {% if orderp.status == 'Cancelled' %}
-                                                    <span class="badge bg-danger" data-bs-toggle="tooltip" title="Updated at: {{orderp.updated_at}}" style="background-color: blue;">
-                                                        {{orderp.status}}
-                                                    </span>
-                                                    {% elif orderp.status == 'Delivered' %}
-                                                    <span class="badge bg-success" data-bs-toggle="tooltip" title="Updated at: {{orderp.updated_at}}">
-                                                        {{orderp.status}}</span>
-                                                    {% else %}
-                                                    <span class="badge" data-bs-toggle="tooltip" title="Updated at: {{orderp.updated_at}}" style="background-color: blue;">
-                                                        {{orderp.status}}</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td class="quantity-box text-center">
-                                                    <p class="btn hvr-hover-cancel disabled">Not Paid.</p>
-
-                                                </td>
-                                                <td class="quantity-box text-center">
-                                                    {% if orderp.status == 'Cancelled' %}
-                                                    <a href="#" class="btn hvr-hover-cancel disabled" style="color: #e9ecef; background-color: blue;" aria-disabled="true">
-                                                        Cancelled
-                                                    </a>
-                                                    {% elif orderp.status == 'Delivered' %}
-                                                    <a href="#" class="btn hvr-hover-cancel disabled" style="color: #e9ecef; background-color: blue;" aria-disabled="true">
-                                                        Delivered
-                                                    </a>
-                                                    {% else %}
-                                                    <a href="/cancelproduct/{{order.id}}/{{orderp.product.id}}" class="btn hvr-hover-cancel" style="color: red;">
-                                                        Cancel
-                                                    </a>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endif %}
-                                            {% endfor %}
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="title-all text-center">
-                                <h2>No previous orders</h2>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+<div class="bg-gray-50 py-8">
+  <div class="container mx-auto px-4 max-w-7xl">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">Account Information</h1>
+      <div class="flex justify-center space-x-4 mt-4">
+        <a href="#profile" class="text-primary hover:underline">Profile</a>
+        <a href="#wishlist" class="text-gray-600 hover:text-primary hover:underline">Wishlist</a>
+        <a href="#order-history" class="text-gray-600 hover:text-primary hover:underline">Orders</a>
+      </div>
     </div>
+
+    <!-- Profile Section -->
+    <div id="profile" class="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div class="flex items-center mb-6 pb-4 border-b border-gray-200">
+        <i class="fas fa-user-circle text-2xl text-primary mr-3"></i>
+        <h2 class="text-xl font-bold text-gray-800">Profile Information</h2>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Profile Picture -->
+        <div class="md:w-1/3 flex flex-col items-center">
+          <div class="mb-4">
+            <img src="{{customer.profile_pic.url}}" alt="Profile Image" class="w-48 h-48 object-cover rounded-full border-4 border-primary border-opacity-20">
+          </div>
+          <div class="flex space-x-3">
+            <a href="/account/updateprofile" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-sm font-medium transition flex items-center">
+              <i class="fas fa-user-edit mr-2"></i> Update Profile
+            </a>
+            <a href="/account/changepassword" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition flex items-center">
+              <i class="fas fa-lock mr-2"></i> Change Password
+            </a>
+          </div>
+        </div>
+        
+        <!-- Profile Details -->
+        <div class="md:w-2/3">
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">{{user.first_name}} {{user.last_name}}</h3>
+          
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex items-start">
+                <span class="text-gray-600 font-medium w-32">Email:</span>
+                <span class="text-gray-800">{{user.email}}</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-gray-600 font-medium w-32">Phone:</span>
+                <span class="text-gray-800">{{customer.phone}}</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-gray-600 font-medium w-32">Country:</span>
+                <span class="text-gray-800">{{customer.state}}</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-gray-600 font-medium w-32">Address:</span>
+                <span class="text-gray-800">{{customer.city}}</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-gray-600 font-medium w-32">Member Since:</span>
+                <span class="text-gray-800">{{user.date_joined|date:"F d, Y"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Section -->
+    <div id="wishlist" class="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div class="flex items-center mb-6 pb-4 border-b border-gray-200">
+        <i class="fas fa-heart text-2xl text-red-500 mr-3"></i>
+        <h2 class="text-xl font-bold text-gray-800">My Wishlist</h2>
+      </div>
+      
+      {% if wishlists %}
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Added On</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for wishlist in wishlists %}
+            <tr class="hover:bg-gray-50 transition">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{forloop.counter}}.</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-16 w-16">
+                    <img class="h-16 w-16 object-cover rounded" src="{{wishlist.product.product_img.url}}" alt="{{wishlist.product.product_name}}">
+                  </div>
+                  <div class="ml-4">
+                    <a href="/productdetail/{{wishlist.product_id}}" class="text-sm font-medium text-gray-900 hover:text-primary transition">
+                      {{wishlist.product.product_name|truncatechars:40}}
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-primary font-semibold">
+                Ksh {{wishlist.product.price|floatformat:2|intcomma}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{wishlist.added_on|date:"M d, Y"}}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-3">
+                  <a href="/addtocart/{{wishlist.product_id}}" class="text-primary hover:text-primary-dark" title="Add to Cart">
+                    <i class="fas fa-cart-plus"></i>
+                  </a>
+                  <a href="/removefromwishlist/{{wishlist.product_id}}" class="text-red-500 hover:text-red-700" title="Remove">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="text-center py-12">
+        <i class="far fa-heart text-4xl text-gray-300 mb-4"></i>
+        <h3 class="text-lg font-medium text-gray-500">Your wishlist is empty</h3>
+        <p class="text-gray-400 mt-2">Start adding products you love</p>
+        <a href="/products" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Browse Products
+        </a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Order History Section -->
+    <div id="order-history" class="bg-white rounded-lg shadow-sm p-6">
+      <div class="flex items-center mb-6 pb-4 border-b border-gray-200">
+        <i class="fas fa-history text-2xl text-blue-500 mr-3"></i>
+        <h2 class="text-xl font-bold text-gray-800">Order History</h2>
+      </div>
+      
+      {% if orderprs %}
+      <div class="space-y-6">
+        {% for order in orders %}
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <!-- Order Header -->
+          <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div class="mb-2 md:mb-0">
+                <span class="text-sm font-medium text-gray-500">Order #</span>
+                <span class="text-sm font-semibold text-gray-700">{{order.code}}</span>
+              </div>
+              <div class="mb-2 md:mb-0">
+                <span class="text-sm font-medium text-gray-500">Date:</span>
+                <span class="text-sm text-gray-700">{{order.placed_at|date:"M d, Y"}}</span>
+              </div>
+              <div>
+                <span class="text-sm font-medium text-gray-500">Total:</span>
+                <span class="text-sm font-semibold text-primary">Ksh {{order.total|floatformat:2|intcomma}}</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Order Items -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {% for orderpr in orderprs %}
+                  {% for orderp in orderpr %}
+                    {% if orderp.order_id == order.id %}
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{forloop.counter}}.</td>
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10">
+                            <img class="h-10 w-10 rounded object-cover" src="{{orderp.product.product_img.url}}" alt="{{orderp.product.product_name}}">
+                          </div>
+                          <div class="ml-4">
+                            <a href="/productdetail/{{orderp.product_id}}" class="text-sm font-medium text-gray-900 hover:text-primary transition">
+                              {{orderp.product.product_name|truncatechars:30}}
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        Ksh {{orderp.price|floatformat:2|intcomma}}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{orderp.qty}}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-primary font-semibold">
+                        Ksh {{orderp.amount|floatformat:2|intcomma}}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {% if orderp.status == 'Cancelled' %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                          {{orderp.status}}
+                        </span>
+                        {% elif orderp.status == 'Delivered' %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          {{orderp.status}}
+                        </span>
+                        {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                          {{orderp.status}}
+                        </span>
+                        {% endif %}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {% if order.payment_status == 'Paid' %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Paid
+                        </span>
+                        {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Not Paid
+                        </span>
+                        {% endif %}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        {% if orderp.status == 'Cancelled' or orderp.status == 'Delivered' %}
+                        <span class="text-gray-400">No actions</span>
+                        {% else %}
+                        <a href="/cancelproduct/{{order.id}}/{{orderp.product.id}}" class="text-red-600 hover:text-red-900">
+                          Cancel
+                        </a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-12">
+        <i class="fas fa-shopping-bag text-4xl text-gray-300 mb-4"></i>
+        <h3 class="text-lg font-medium text-gray-500">You haven't placed any orders yet</h3>
+        <p class="text-gray-400 mt-2">Start shopping to see your orders here</p>
+        <a href="/products" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Browse Products
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
+
+<!-- Trust Badges Section (Same as products page for consistency) -->
+<div class="bg-white py-8 border-t border-b border-gray-200">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="flex flex-col items-center">
+        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+          <i class="fas fa-shield-alt text-primary text-xl"></i>
+        </div>
+        <h4 class="font-medium text-gray-800">Quality Assurance</h4>
+        <p class="text-gray-500 text-sm mt-1">Premium products</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+          <i class="fas fa-truck text-primary text-xl"></i>
+        </div>
+        <h4 class="font-medium text-gray-800">Free Shipping</h4>
+        <p class="text-gray-500 text-sm mt-1">On orders over Ksh 500,000 within Nairobi</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+          <i class="fas fa-undo-alt text-primary text-xl"></i>
+        </div>
+        <h4 class="font-medium text-gray-800">Easy Returns</h4>
+        <p class="text-gray-500 text-sm mt-1">Within 14 days</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-3">
+          <i class="fas fa-headset text-primary text-xl"></i>
+        </div>
+        <h4 class="font-medium text-gray-800">24/7 Support</h4>
+        <p class="text-gray-500 text-sm mt-1">Dedicated support</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

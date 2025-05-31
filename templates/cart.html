@@ -9,111 +9,184 @@ Cart | Pools TikiTaka
 
 {% block body %}
 
+<!-- Messages -->
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-primary alert-dismissible fade show mb-0" role="alert">
-            {{message}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    {% endfor %}
+  {% for message in messages %}
+    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 rounded relative max-w-screen-xl mx-auto" role="alert">
+      <span class="block sm:inline">{{ message }}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg class="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onclick="this.parentElement.parentElement.style.display='none'">
+          <title>Close</title>
+          <path d="M14.348 14.849a1 1 0 01-1.414 0L10 11.914l-2.934 2.935a1 1 0 01-1.414-1.415l2.935-2.934-2.935-2.934a1 1 0 011.414-1.415L10 9.086l2.934-2.935a1 1 0 111.415 1.415L11.414 10l2.934 2.934a1 1 0 010 1.415z"/>
+        </svg>
+      </span>
+    </div>
+  {% endfor %}
 {% endif %}
 
-<!-- Start Cart  -->
-<div class="cart-box-main">
-    <div class="container">
-        {% if carts %}
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Your Cart</h1>
-                </div>
-                <div class="table-main table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="text-center">
-                                <th>Images</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for cart in carts %}
-                            <tr>
-                                <td class="thumbnail-img" style="text-align:center">
-                                    <a href="/productdetail/{{cart.product_id}}">
-                                    <img height="100" src="{{cart.product.product_img.url}}" alt="" />
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="/productdetail/{{cart.product_id}}" class="nav-link">
-                                    {{cart.product.product_name}}
-                                    </a>
-                                </td>
-                                <td class="price-pr text-center">
-                                    <p>ksh {{cart.price|floatformat:2|intcomma}}</p>
-                                </td>
-                                <td class="quantity-box text-center">
-                                    <p>
-                                        <a class="btn hvr-hover mr-2" href="/deletefromcart/{{cart.product.id}}" style="color:white; background-color: blue;">
-                                        <i class="fas fa-minus"></i></a>
-                                        {{cart.qty}}
-                                        <a class="btn hvr-hover ml-2" href="/addtocart/{{cart.product.id}}" style="color:white; background-color: blue;">
-                                        <i class="fas fa-plus"></i></a>
-                                    </p>
-                                </td>
-                                <td class="total-pr text-center">
-                                    <p>ksh {{cart.amount|floatformat:2|intcomma}}</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a href="/deleteallfromcart/{{cart.product.id}}" class="dropdown" style="color: red;"><i class="fas fa-trash"></i>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<!-- Cart Section -->
+<div class="bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    {% if carts %}
+    <!-- Cart with Items -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <!-- Cart Header -->
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h1 class="text-2xl font-bold text-gray-900">Your Shopping Cart</h1>
+      </div>
+      
+      <!-- Cart Items - Mobile View -->
+      <div class="sm:hidden">
+        {% for cart in carts %}
+        <div class="border-b border-gray-200 p-4">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <a href="/productdetail/{{cart.product_id}}">
+                <img class="h-20 w-20 rounded-md object-cover" src="{{cart.product.product_img.url}}" alt="{{cart.product.product_name}}">
+              </a>
             </div>
-        </div>
-        
-        <div class="row my-5">
-            <div class="col-12 d-flex shopping-box"><a href="/clearcart" class="ml-auto btn hvr-hover" style="background-color: blue;">Clear Cart</a> </div>
-        </div>
-
-        <div class="row my-5">
-            <div class="col-lg-8 col-sm-12"></div>
-            <div class="col-lg-4 col-sm-12">
-                <div class="order-box">
-                    <h3>Order summary</h3>
-                    <div class="d-flex">
-                        <h4>Sub Total</h4>
-                        <div class="ml-auto font-weight-bold">ksh {{total|floatformat:2|intcomma}}</div>
-                    </div>
-                    <hr class="my-1">
-                    <div class="d-flex">
-                        <h4>Shipping Cost</h4>
-                        <div class="ml-auto font-weight-bold">  </div>
-                    </div>
-                    <hr> </div>
+            <div class="flex-1 min-w-0">
+              <a href="/productdetail/{{cart.product_id}}" class="text-sm font-medium text-gray-900 hover:text-primary truncate">
+                {{cart.product.product_name}}
+              </a>
+              <p class="text-sm text-primary font-semibold mt-1">Ksh {{cart.price|floatformat:2|intcomma}}</p>
+              
+              <!-- Quantity Controls -->
+              <div class="flex items-center mt-2">
+                <a href="/deletefromcart/{{cart.product.id}}" class="bg-gray-200 hover:bg-gray-300 rounded-md p-1">
+                  <i class="fas fa-minus text-gray-600 text-xs"></i>
+                </a>
+                <span class="mx-2 text-sm font-medium">{{cart.qty}}</span>
+                <a href="/addtocart/{{cart.product.id}}" class="bg-gray-200 hover:bg-gray-300 rounded-md p-1">
+                  <i class="fas fa-plus text-gray-600 text-xs"></i>
+                </a>
+              </div>
+              
+              <div class="mt-2 flex justify-between items-center">
+                <p class="text-sm font-medium">Ksh {{cart.amount|floatformat:2|intcomma}}</p>
+                <a href="/deleteallfromcart/{{cart.product.id}}" class="text-red-500 hover:text-red-700">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </div>
             </div>
-            <div class="col-12 d-flex shopping-box"><a href="/checkout" class="ml-auto btn hvr-hover" style="background-color: blue;">Checkout</a> </div>
+          </div>
         </div>
-        {% else %}
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Your Cart is Empty</h1>
-                    <p></p>
+        {% endfor %}
+      </div>
+      
+      <!-- Cart Items - Desktop View -->
+      <div class="hidden sm:block overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for cart in carts %}
+            <tr class="hover:bg-gray-50">
+              <!-- Product -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-16 w-16">
+                    <a href="/productdetail/{{cart.product_id}}">
+                      <img class="h-16 w-16 rounded-md object-cover" src="{{cart.product.product_img.url}}" alt="{{cart.product.product_name}}">
+                    </a>
+                  </div>
+                  <div class="ml-4">
+                    <a href="/productdetail/{{cart.product_id}}" class="text-sm font-medium text-gray-900 hover:text-primary">
+                      {{cart.product.product_name}}
+                    </a>
+                  </div>
                 </div>
-            </div>
-        </div>
-        {% endif %}
+              </td>
+              
+              <!-- Price -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-primary font-semibold">
+                Ksh {{cart.price|floatformat:2|intcomma}}
+              </td>
+              
+              <!-- Quantity -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <a href="/deletefromcart/{{cart.product.id}}" class="bg-gray-200 hover:bg-gray-300 rounded-md p-1">
+                    <i class="fas fa-minus text-gray-600 text-xs"></i>
+                  </a>
+                  <span class="mx-2 text-sm font-medium">{{cart.qty}}</span>
+                  <a href="/addtocart/{{cart.product.id}}" class="bg-gray-200 hover:bg-gray-300 rounded-md p-1">
+                    <i class="fas fa-plus text-gray-600 text-xs"></i>
+                  </a>
+                </div>
+              </td>
+              
+              <!-- Total -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                Ksh {{cart.amount|floatformat:2|intcomma}}
+              </td>
+              
+              <!-- Actions -->
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <a href="/deleteallfromcart/{{cart.product.id}}" class="text-red-500 hover:text-red-700">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Cart Actions -->
+      <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <a href="/clearcart" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+          <i class="fas fa-trash mr-2"></i> Clear Cart
+        </a>
+      </div>
     </div>
+    
+    <!-- Order Summary -->
+    <div class="mt-8 bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Order Summary</h3>
+        <div class="mt-6">
+          <div class="flex justify-between py-3 text-sm">
+            <span class="text-gray-600">Subtotal</span>
+            <span class="font-medium">Ksh {{total|floatformat:2|intcomma}}</span>
+          </div>
+          <div class="flex justify-between py-3 text-sm border-t border-gray-200">
+            <span class="text-gray-600">Shipping</span>
+            <span class="font-medium">Calculated at checkout</span>
+          </div>
+          <div class="flex justify-between py-3 text-lg font-bold border-t border-gray-200 mt-4">
+            <span>Total</span>
+            <span>Ksh {{total|floatformat:2|intcomma}}</span>
+          </div>
+          
+          <div class="mt-6">
+            <a href="/checkout" class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+              Proceed to Checkout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% else %}
+    <!-- Empty Cart -->
+    <div class="text-center bg-white py-16 px-6 rounded-lg shadow">
+      <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
+      <p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet</p>
+      <a href="/products" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        <i class="fas fa-store mr-2"></i> Continue Shopping
+      </a>
+    </div>
+    {% endif %}
+  </div>
 </div>
-<!-- End Cart -->
 
 {% endblock %}

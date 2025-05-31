@@ -178,48 +178,64 @@
         </div>
     </div>
 
-    <!-- Sticky Header (initially hidden) -->
-    <div class="sticky-header fixed top-0 left-0 right-0 bg-white shadow-md z-30 py-2">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between">
+   <!-- Sticky Header -->
+<div class="sticky-header fixed top-0 left-0 right-0 bg-white shadow-md z-30 py-2">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between">
+
+            <!-- Left: Hamburger + Logo -->
+            <div class="flex items-center gap-4">
                 <!-- Hamburger Menu Button (Mobile Only) -->
-                <button id="mobileMenuToggle" class="md:hidden mr-4 focus:outline-none">
-                    <div class="hamburger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                <button id="mobileMenuToggle" class="md:hidden focus:outline-none">
+                    <div class="hamburger space-y-1">
+                        <span class="block w-5 h-0.5 bg-gray-700"></span>
+                        <span class="block w-5 h-0.5 bg-gray-700"></span>
+                        <span class="block w-5 h-0.5 bg-gray-700"></span>
                     </div>
                 </button>
-                
-                <!-- Logo (Mobile Only) -->
-                <a href="/" class="md:hidden text-xl font-bold">
+
+                <!-- Logo (All Devices) -->
+                <a href="/" class="text-xl font-bold">
                     <span class="text-secondary">POOLS</span>
                     <span class="text-primary">TIKITAKA</span>
                 </a>
-                
-                <!-- Search Bar (Sticky) -->
-                <form action="/search/" method="GET" class="flex-1 max-w-2xl mx-4">
-                    <div class="relative">
-                        <input type="text" name="search" placeholder="Search for products..." 
-                               class="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                        <button type="submit" class="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-                
-                <!-- Cart Icon (Sticky) -->
-                <a href="/cart" class="relative ml-4 text-gray-700 hover:text-primary">
+            </div>
+
+            <!-- Center: Search Bar -->
+            <form action="/search/" method="GET" class="flex-1 mx-4 max-w-2xl">
+                <div class="relative">
+                    <input type="text" name="search" placeholder="Search for products..." 
+                           class="w-full py-2 pl-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                    <button type="submit" class="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Right: Wishlist + Cart -->
+            <div class="flex items-center gap-4">
+                <!-- Wishlist Icon -->
+               
+                           {% if user.id %}
+                            <a href="/account/#wishlist" class="relative text-gray-700 hover:text-primary">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                            {% endif %}
+
+                <!-- Cart Icon -->
+                <a href="/cart" class="relative text-gray-700 hover:text-primary">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     {% if qty > 0 %}
                     <span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                        {{qty}}
+                        {{ qty }}
                     </span>
                     {% endif %}
                 </a>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Main Header -->
     <header class="bg-white shadow-sm py-4">
@@ -283,13 +299,19 @@
                             <a href="/" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">HOME</a>
                         </li>
                         <li>
-                            <a href="/products" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">SHOP</a>
+                            <a href="/products" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">PRODUCTS</a>
                         </li>
                         <li>
                             <a href="/about" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">ABOUT US</a>
                         </li>
                         <li>
-                            <a href="/contactus" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">CONTACT</a>
+                            <a href="/contactus" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">CONTACT US</a>
+                        </li>
+                        <li>
+                            <a href="/blogs" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">OUR BLOGS</a>
+                        </li>
+                        <li>
+                            <a href="/branches" class="block py-3 px-4 hover:bg-white hover:bg-opacity-10 transition">OUR BRANCHES</a>
                         </li>
                         <li class="ml-auto flex items-center space-x-4 py-3 px-4">
                             {% if user.id %}
@@ -309,10 +331,13 @@
         <div class="container mx-auto px-4 py-6">
             <div class="flex flex-col space-y-4">
                 <a href="/" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Home</a>
-                <a href="/products" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Shop</a>
+                <a href="/products" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Products</a>
                 <a href="/about" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">About Us</a>
-                <a href="/contactus" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Contact</a>
-                
+                <a href="/contactus" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Contact Us</a>
+                <a href="/blogs" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Our Blogs</a>
+                <a href="/branches" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Our Branches</a>
+                <a href="/terms" class="block py-2 px-3 text-gray-700 hover:bg-gray-100 rounded font-medium">Terms & Conditions</a>
+
                 <div class="pt-4 border-t border-gray-200">
                     <h4 class="font-semibold text-gray-800 mb-3 px-3">Categories</h4>
                     <div class="space-y-2">
@@ -430,6 +455,10 @@
                         <li><a href="/cart" class="hover:text-primary transition">Shopping Cart</a></li>
                         <li><a href="/about" class="hover:text-primary transition">About Us</a></li>
                         <li><a href="/contactus" class="hover:text-primary transition">Contact Us</a></li>
+                        <li><a href="/policy" class="hover:text-primary transition">Return Policy</a></li>
+                        <li><a href="/branches" class="hover:text-primary transition">Our Branches</a></li>
+                        <li><a href="/blogs" class="hover:text-primary transition">Our Blogs</a></li>
+                        <li><a href="/terms" class="hover:text-primary transition">Terms & Conditions</a></li>
                     </ul>
                 </div>
                 

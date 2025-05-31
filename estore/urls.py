@@ -31,4 +31,6 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('verification/', include('verify_email.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('blogs/', include('blogs.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,7 +11,7 @@ Class-based views
 """
 from django.urls import path
 from .views import index, signup, login, productdetail, products, cartoperations, buynow, checkout, logout, cart, account
-from .views import wishlist, search, updateprofile, changepassword, postreview, contact, about, cancelproduct, payment
+from .views import wishlist, search, updateprofile, changepassword, postreview, contact, about, cancelproduct, payment, policy, branches, terms
 from . import views
 from shop.views.passwordreset import password_reset, reset
 
@@ -45,4 +45,7 @@ urlpatterns = [
     path('reset/<str:uidb64>/<str:token>/', reset, name = 'reset'),
     path('mpesa-checkout/', payment.MpesaCheckout.as_view(), name='mpesa_checkout'),
     path('mpesa-callback/', payment.MpesaCallBack.as_view(), name='mpesa_callback'),
+    path('policy/', policy.policy, name='policy'),
+    path('branches/', branches.branches, name='branches'),
+    path('terms/', terms.terms, name='terms'),
 ]
